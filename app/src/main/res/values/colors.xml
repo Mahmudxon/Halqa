@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000</color>
+    <color name="yellow">#FFC107</color>
+    <color name="red">#FF6969</color>
+    <color name="shadow_light">#79FFFFFF</color>
+    <color name="shadow_dark">#79000000</color>
+    <color name="blue_ripple">#00325A</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="blue">#03A9F4</color>
+
+    <!--Classic theme-->
+    <color name="cl_color_primary">#00BCD4</color>
+    <color name="cl_color_primary_dark">#03A9F4</color>
+    <color name="cl_color_accent">#00BCD4</color>
+    <color name="cl_background">#EFEFEF</color>
+    <color name="cl_background_light">@color/white</color>
+    <color name="cl_edt_back">#A9F3F2F1</color>
+    <color name="cl_def_text_color">#333333</color>
+    <color name="cl_secondary_text_color">#8A8886</color>
+    <color name="cl_separate_text_color">#323130</color>
+    <color name="cl_content_item_back">#F9F9F9</color>
+    <color name="cl_break_line">#EDEBE9</color>
+    <color name="cl_selected_back">#1A4673FD</color>
+    <color name="cl_selected_text">#4673FD</color>
+    <color name="cl_content_text">#605E5C</color>
+    <color name="cl_content_back">#FFFFFF</color>
+    <!--End theme-->
+
+    <!--Night theme-->
+    <color name="n_color_primary">#00BCD4</color>
+    <color name="n_color_primary_dark">#313335</color>
+    <color name="n_color_accent">#F2F2F2</color>
+    <color name="n_background">#1C1C1C</color>
+    <color name="n_background_light">#313335</color>
+    <color name="n_edt_back">#262626</color>
+    <color name="n_def_text_color">#FFFFFF</color>
+    <color name="n_content_text">#C8C6C4</color>
+    <color name="n_secondary_text_color">#8A8886</color>
+    <color name="n_separate_text_color">#fff</color>
+    <color name="m_content_item_back">#2A2D32</color>
+    <color name="checkedColor">#03A9F4</color>
+    <color name="colorAccent">#03A9F4</color>
+    <color name="n_break_line">#323130</color>
+    <color name="n_selected_back">#3B3A39</color>
+    <color name="n_selected_text">@color/white</color>
+    <color name="green">#009688</color>
+    <color name="purple">#4673FD</color>
+    <color name="orange">#FF9800</color>
+    <!--End theme-->
+
+</resources>

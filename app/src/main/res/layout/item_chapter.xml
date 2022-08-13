@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="theme"
+            type="uz.mahmudxon.halqa.util.theme.Theme" />
+
+        <variable
+            name="is_checked"
+            type="Boolean" />
+
+        <variable
+            name="progress"
+            type="Integer" />
+
+        <variable
+            name="chapter"
+            type="uz.mahmudxon.halqa.domain.model.Chapter" />
+
+    </data>
+
+
+    <FrameLayout
+        backgroundColor="@{is_checked ? theme.checkedBackColor : theme.contentBackColor}"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:foreground="?selectableItemBackground">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                app:cardCornerRadius="80dp">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    progressColor="@{theme.checkedTextColor}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:indeterminate="false"
+                    android:max="100"
+                    android:progress="@{progress}" />
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    textColor="@{theme.defaultTextColor}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{chapter.title}"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    tools:text="Chapter 1" />
+
+                <TextView
+                    textColor="@{theme.secondaryTextColor}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@{chapter.description}"
+                    android:textSize="16sp"
+                    tools:text="Chapter 1" />
+
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </FrameLayout>
+</layout>

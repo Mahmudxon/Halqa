@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Classic Theme. -->
+    <style name="Classic" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/cl_color_primary</item>
+        <item name="colorPrimaryDark">@color/black</item>
+        <item name="colorAccent">@color/cl_color_accent</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:textColor">@color/cl_def_text_color</item>
+        <item name="android:textColorSecondary">@color/cl_secondary_text_color</item>
+    </style>
+
+    <style name="NightTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="colorPrimary">@color/n_color_primary</item>
+        <item name="android:textColor">@color/n_def_text_color</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="colorPrimaryDark">@color/n_color_primary_dark</item>
+        <item name="colorAccent">@color/n_color_accent</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:textColorSecondary">@color/n_secondary_text_color</item>
+    </style>
+
+    <style name="NavigationViewStyle">
+        <item name="android:textSize">16sp</item> <!-- menu item text size-->
+        <item name="android:listPreferredItemHeightSmall">40dp</item><!-- menu item height-->
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">#FFB300</item>
+    </style>
+
+
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+
+</resources>
