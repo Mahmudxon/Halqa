@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="theme"
+            type="uz.mahmudxon.halqa.util.theme.Theme" />
+
+        <variable
+            name="chapter"
+            type="uz.mahmudxon.halqa.domain.model.Chapter" />
+    </data>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                textColor="@{theme.defaultTextColor}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{chapter.title}"
+                tools:text="@string/test_title"
+                android:textSize="20sp"
+                android:layout_margin="16dp"
+                android:textAlignment="center"
+                />
+
+
+            <TextView
+                textColor="@{theme.secondaryTextColor}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@{chapter.description}"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textAlignment="center"
+                tools:text="@string/test_description"
+                />
+
+            <TextView
+                textColor="@{theme.defaultTextColor}"
+                android:text="@{chapter.story}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="@string/test_story"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:textSize="16sp"
+                android:layout_marginTop="16dp"
+                />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</layout>

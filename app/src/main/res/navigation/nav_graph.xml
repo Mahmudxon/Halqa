@@ -9,5 +9,19 @@
         android:id="@+id/mainFragment"
         android:name="uz.mahmudxon.halqa.ui.main.MainFragment"
         android:label="MainFragment"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_storyFragment"
+            app:destination="@id/storyFragment"
+            app:enterAnim="@anim/enter"
+            app:exitAnim="@anim/exit"
+            app:popEnterAnim="@anim/pop_enter"
+            app:popExitAnim="@anim/pop_exit" />
+    </fragment>
+    <fragment
+        android:id="@+id/storyFragment"
+        android:name="uz.mahmudxon.halqa.ui.story.StoryFragment"
+        android:label="StoryFragment"
+        tools:layout="@layout/fragment_story"
+        />
 </navigation>

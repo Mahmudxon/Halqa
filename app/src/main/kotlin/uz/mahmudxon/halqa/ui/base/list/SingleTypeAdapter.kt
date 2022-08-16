@@ -15,7 +15,7 @@ abstract class SingleTypeAdapter<T>(
 ) : RecyclerView.Adapter<SingleTypeAdapter<T>.ViewHolder>() {
 
     private var _listener: OnItemClickListener<T>? = null
-    fun setItemListener(listener: OnItemClickListener<T>) {
+    fun setItemClickListener(listener: OnItemClickListener<T>) {
         _listener = listener
     }
 
