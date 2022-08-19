@@ -76,5 +76,4 @@ abstract class SingleTypeAdapter<T>(
     interface OnItemClickListener<T> {
         fun onListItemClick(item: T)
     }
-
 }
