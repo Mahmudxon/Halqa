@@ -24,6 +24,8 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         { state->
             state.data?.let {
                 binding.chapterLayout.chapter = it
+                binding.title.text = it.description
+                binding.title.isSelected = true
             }
             binding.loading = state.loading
         }

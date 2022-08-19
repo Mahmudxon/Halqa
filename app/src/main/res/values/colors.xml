@@ -4,10 +4,10 @@
     <color name="cl_color_primary">#fafafa</color>
     <color name="cl_color_primary_dark">#c7c7c7</color>
     <color name="cl_color_accent">#ffffff</color>
-    <color name="cl_background">#D2D2D2</color>
-    <color name="cl_card">#99FFFFFF</color>
+    <color name="cl_background">#EFEFF4</color>
+    <color name="cl_card">#F6F6F6</color>
     <color name="cl_primary_text">#000000</color>
-    <color name="cl_secondary_text">#3C3C43</color>
+    <color name="cl_secondary_text">#8E8E93</color>
     <!--End theme-->
 
     <!--Night theme-->

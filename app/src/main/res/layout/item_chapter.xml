@@ -22,11 +22,10 @@
     <androidx.cardview.widget.CardView
        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="5dp"
         android:foreground="?selectableItemBackground"
         cardBackColor="@{theme.cardColor}"
-        app:cardCornerRadius="16dp"
-        app:cardElevation="0dp"
+        app:cardElevation="1dp"
+        android:layout_marginBottom="2dp"
         >
 
         <androidx.appcompat.widget.LinearLayoutCompat
@@ -49,7 +48,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{chapter.title}"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     tools:text="Chapter 1"
                      />
@@ -59,7 +58,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{chapter.description}"
-                    android:textSize="16sp"
+                    android:textSize="14sp"
                     tools:text="Chapter 1"
                     visibility="@{chapter.description.length() > 0}"
                     />
