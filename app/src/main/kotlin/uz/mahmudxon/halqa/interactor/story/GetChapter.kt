@@ -14,9 +14,6 @@ class GetChapter(
 ) {
     fun execute(chapterNumber: Int): Flow<DataState<Chapter>> = flow {
         emit(DataState.loading())
-
-        // just to show loading, cache is fast
-        delay(timeMillis = 1000)
         try {
             val cacheStory = dao.getChapterById(id = chapterNumber)
             emit(DataState.success(storyEntityMapper.mapToDomainModel(cacheStory)))

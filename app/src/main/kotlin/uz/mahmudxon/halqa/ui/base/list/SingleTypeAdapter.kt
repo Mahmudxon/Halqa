@@ -63,9 +63,6 @@ abstract class SingleTypeAdapter<T>(
                 _listener?.onListItemClick(data[adapterPosition])
             }
             bindData(binding, adapterPosition)
-            if(lastPosition < adapterPosition) {
-                setAnimation()
-            }
         }
 
         private fun setAnimation() {
