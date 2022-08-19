@@ -18,14 +18,14 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override fun onCreate(view: View) {
         val id = arguments?.getInt("id")
-        id?.let {
-            viewModel.getChapter(it)
-        }
+        id?.let { viewModel.getChapter(it) }
+        binding.backButton.setOnClickListener { finish() }
         viewModel.chapter.observe(this)
         { state->
             state.data?.let {
                 binding.chapterLayout.chapter = it
             }
+            binding.loading = state.loading
         }
     }
 

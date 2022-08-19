@@ -70,7 +70,7 @@ fun setProgressColor(progressBar: ProgressBar, colorId: Int) {
 @BindingAdapter("radioTheme")
 fun setRadioTheme(radioButton: RadioButton, theme: Theme?) {
     theme?.let {
-        val checked = ContextCompat.getColor(radioButton.context, theme.specialTextColor)
+        val checked = ContextCompat.getColor(radioButton.context, theme.primaryTextColor)
         val unchecked = ContextCompat.getColor(radioButton.context, theme.secondaryTextColor)
         val states = arrayOf(
             intArrayOf(android.R.attr.state_checked),
@@ -88,7 +88,7 @@ fun setRadioTheme(radioButton: RadioButton, theme: Theme?) {
 @BindingAdapter("searchViewTheme")
 fun setSearchTheme(searchView: SearchView, theme: Theme?) {
     theme?.let {
-        val defTextColor = ContextCompat.getColor(searchView.context, it.defaultTextColor)
+        val defTextColor = ContextCompat.getColor(searchView.context, it.primaryTextColor)
         searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_button)
             ?.setColorFilter(defTextColor, android.graphics.PorterDuff.Mode.SRC_IN)
         searchView.findViewById<ImageView>(androidx.appcompat.R.id.search_close_btn)

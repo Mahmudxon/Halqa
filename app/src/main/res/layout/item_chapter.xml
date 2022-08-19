@@ -14,45 +14,27 @@
             type="Boolean" />
 
         <variable
-            name="progress"
-            type="Integer" />
-
-        <variable
             name="chapter"
             type="uz.mahmudxon.halqa.domain.model.Chapter" />
-
     </data>
 
 
-    <FrameLayout
-        backgroundColor="@{is_checked ? theme.checkedBackColor : theme.contentBackColor}"
-        android:layout_width="match_parent"
+    <androidx.cardview.widget.CardView
+       android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
-        android:foreground="?selectableItemBackground">
+        android:foreground="?selectableItemBackground"
+        cardBackColor="@{theme.cardColor}"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp"
+        >
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:gravity="center"
-            android:orientation="horizontal">
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="60dp"
-                android:layout_height="60dp"
-                app:cardCornerRadius="80dp">
-
-                <com.google.android.material.progressindicator.CircularProgressIndicator
-                    progressColor="@{theme.checkedTextColor}"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="center"
-                    android:indeterminate="false"
-                    android:max="100"
-                    android:progress="@{progress}" />
-
-            </androidx.cardview.widget.CardView>
+            android:orientation="horizontal"
+            android:padding="16dp">
 
             <androidx.appcompat.widget.LinearLayoutCompat
                 android:layout_width="0dp"
@@ -63,13 +45,14 @@
                 android:orientation="vertical">
 
                 <TextView
-                    textColor="@{theme.defaultTextColor}"
+                    textColor="@{theme.primaryTextColor}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{chapter.title}"
                     android:textSize="18sp"
                     android:textStyle="bold"
-                    tools:text="Chapter 1" />
+                    tools:text="Chapter 1"
+                     />
 
                 <TextView
                     textColor="@{theme.secondaryTextColor}"
@@ -77,11 +60,13 @@
                     android:layout_height="wrap_content"
                     android:text="@{chapter.description}"
                     android:textSize="16sp"
-                    tools:text="Chapter 1" />
+                    tools:text="Chapter 1"
+                    visibility="@{chapter.description.length() > 0}"
+                    />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>
 
         </androidx.appcompat.widget.LinearLayoutCompat>
-    </FrameLayout>
+    </androidx.cardview.widget.CardView>
 </layout>

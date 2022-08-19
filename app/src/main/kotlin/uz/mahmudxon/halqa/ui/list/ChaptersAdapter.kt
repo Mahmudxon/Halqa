@@ -14,7 +14,8 @@ class ChaptersAdapter @Inject constructor(private val themeManager: ThemeManager
         if (binding is ItemChapterBinding) {
             binding.chapter = data[position]
             binding.theme = themeManager.currentTheme
-            binding.progress = position
         }
     }
+
+
 }

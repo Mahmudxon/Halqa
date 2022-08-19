@@ -4,16 +4,18 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.recyclerview.widget.RecyclerView
+import uz.mahmudxon.halqa.R
 
 abstract class SingleTypeAdapter<T>(
     @LayoutRes val layout: Int, var data: ArrayList<T> = ArrayList(),
     var context: Context? = null
 ) : RecyclerView.Adapter<SingleTypeAdapter<T>.ViewHolder>() {
-
+    private var lastPosition = -1
     private var _listener: OnItemClickListener<T>? = null
     fun setItemClickListener(listener: OnItemClickListener<T>) {
         _listener = listener
@@ -61,10 +63,21 @@ abstract class SingleTypeAdapter<T>(
                 _listener?.onListItemClick(data[adapterPosition])
             }
             bindData(binding, adapterPosition)
+            if(lastPosition < adapterPosition) {
+                setAnimation()
+            }
         }
+
+        private fun setAnimation() {
+            val animation = AnimationUtils.loadAnimation(itemView.context, android.R.anim.slide_in_left)
+            itemView.startAnimation(animation)
+            lastPosition = adapterPosition
+        }
+
     }
 
     interface OnItemClickListener<T> {
         fun onListItemClick(item: T)
     }
+
 }

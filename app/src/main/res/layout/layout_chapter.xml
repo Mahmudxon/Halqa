@@ -15,21 +15,25 @@
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingTop="80dp"
+            >
 
             <TextView
-                textColor="@{theme.defaultTextColor}"
+                textColor="@{theme.primaryTextColor}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{chapter.title}"
                 tools:text="@string/test_title"
                 android:textSize="20sp"
-                android:layout_margin="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
                 android:textAlignment="center"
                 />
 
@@ -43,11 +47,12 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:textAlignment="center"
+                visibility="@{chapter.description.length() > 0}"
                 tools:text="@string/test_description"
                 />
 
             <TextView
-                textColor="@{theme.defaultTextColor}"
+                textColor="@{theme.primaryTextColor}"
                 android:text="@{chapter.story}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -55,7 +60,6 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:textSize="16sp"
-                android:layout_marginTop="16dp"
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

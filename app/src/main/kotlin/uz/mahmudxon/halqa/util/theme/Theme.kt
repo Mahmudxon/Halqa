@@ -18,28 +18,10 @@ abstract class Theme {
     abstract val isLightNavigationBar: Boolean
     /** End System **/
 
-    /** Background **/
     abstract val backgroundColor: Int
-    abstract val actionBarBackColor: Int
-    abstract val specialBackColor: Int
-    abstract val breakLineColor: Int
-    abstract val menuBackColor: Int
-    abstract val contentBackColor: Int
-    abstract val checkedBackColor: Int
-    abstract val edtBackColor: Int
-    /** End Background **/
-
-    /** Text & Icon **/
-    abstract val defaultTextColor: Int
-    abstract val actionBarTextColor: Int
+    abstract val cardColor: Int
+    abstract val primaryTextColor: Int
     abstract val secondaryTextColor: Int
-    abstract val specialTextColor: Int
-    abstract val checkedTextColor: Int
-    abstract val contentTextColor: Int
-
-    val transparent: Int = R.color.transparent
-
-    /** End Text & Icon **/
 
     companion object {
         const val CLASSIC = 0

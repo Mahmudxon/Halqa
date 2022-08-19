@@ -3,16 +3,15 @@
 
     <style name="Classic" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/cl_color_primary</item>
-        <item name="colorPrimaryDark">@color/white</item>
+        <item name="colorPrimaryDark">@color/cl_color_primary_dark</item>
         <item name="android:windowLightStatusBar">true</item>
         <item name="colorAccent">@color/cl_color_accent</item>
         <item name="android:fontFamily">@font/sf_pro_display</item>
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:navigationBarColor">@color/white</item>
+        <item name="android:navigationBarColor">@color/cl_background</item>
         <item name="android:windowEnableSplitTouch">false</item>
         <item name="android:splitMotionEvents">false</item>
         <item name="android:windowContentTransitions">true</item>
-        <item name="android:textColor">@color/cl_def_text_color</item>
         <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
     </style>
 </resources>

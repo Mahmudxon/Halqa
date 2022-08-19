@@ -16,42 +16,21 @@ class ClassicTheme @Inject constructor() : Theme() {
     override val statusBarColor: Int
         get() = R.color.cl_color_primary_dark
     override val statusBarColorV23: Int
-        get() = R.color.white
+        get() = R.color.cl_background
     override val isLightStatusBar: Boolean
         get() = true
     override val navigationBarColor: Int
         get() = R.color.cl_color_primary_dark
     override val navigationBarColorV28: Int
-        get() = R.color.white
+        get() = R.color.cl_background
     override val isLightNavigationBar: Boolean
         get() = true
     override val backgroundColor: Int
         get() = R.color.cl_background
-    override val actionBarBackColor: Int
-        get() = R.color.cl_background_light
-    override val specialBackColor: Int
-        get() = R.color.cl_background_light
-    override val menuBackColor: Int
-        get() = backgroundColor
-    override val contentBackColor: Int
-        get() = R.color.cl_content_back
-    override val checkedBackColor: Int
-        get() = R.color.cl_selected_back
-    override val breakLineColor: Int
-        get() = R.color.cl_break_line
-    override val defaultTextColor: Int
-        get() = R.color.cl_def_text_color
-    override val actionBarTextColor: Int
-        get() = R.color.cl_def_text_color
+    override val cardColor: Int
+        get() = R.color.cl_card
+    override val primaryTextColor: Int
+        get() = R.color.cl_primary_text
     override val secondaryTextColor: Int
-        get() = R.color.cl_secondary_text_color
-    override val specialTextColor: Int
-        get() = R.color.cl_separate_text_color
-    override val checkedTextColor: Int
-        get() = R.color.cl_selected_text
-
-    override val contentTextColor: Int
-        get() = R.color.cl_content_text
-    override val edtBackColor: Int
-        get() = R.color.cl_edt_back
+        get() = R.color.cl_secondary_text
 }

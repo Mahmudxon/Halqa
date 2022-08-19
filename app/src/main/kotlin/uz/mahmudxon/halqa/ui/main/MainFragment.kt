@@ -11,6 +11,7 @@ import uz.mahmudxon.halqa.domain.model.Chapter
 import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
+import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
 @AndroidEntryPoint
@@ -39,5 +40,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             R.id.action_mainFragment_to_storyFragment,
             bundleOf("id" to item.chapterNumber)
         )
+    }
+
+    override fun onCreateTheme(theme: Theme) {
+        super.onCreateTheme(theme)
+        binding.theme = theme
     }
 }
