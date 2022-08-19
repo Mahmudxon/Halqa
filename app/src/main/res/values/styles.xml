@@ -35,4 +35,23 @@
     </style>
 
 
+    <style name="Splash" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">@color/cl_color_primary</item>
+        <item name="colorPrimaryDark">@color/cl_color_primary_dark</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="colorAccent">@color/cl_color_accent</item>
+        <item name="android:fontFamily">@font/sf_pro_display</item>
+        <item name="android:windowLightNavigationBar" tools:targetApi="o_mr1">true</item>
+        <item name="android:navigationBarColor">@color/cl_background</item>
+        <item name="android:windowEnableSplitTouch">false</item>
+        <item name="android:splitMotionEvents">false</item>
+        <item name="android:windowContentTransitions">true</item>
+        <item name="android:forceDarkAllowed" tools:targetApi="q">false</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowTranslucentStatus">false</item>
+        <item name="android:fitsSystemWindows">true</item>
+        <item name="android:windowTranslucentNavigation">false</item>
+        <item name="android:backgroundDimEnabled">false</item>
+    </style>
+
 </resources>

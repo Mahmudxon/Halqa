@@ -14,10 +14,11 @@
     <color name="n_color_primary">#000000</color>
     <color name="n_color_primary_dark">#000000</color>
     <color name="n_color_accent">#2c2c2c</color>
-    <color name="n_background">#1C1C1E</color>
-    <color name="n_card">#2C2C2E</color>
+    <color name="n_background">#1C1C1D</color>
+    <color name="n_card">#000000</color>
     <color name="n_primary_text">#FFFFFF</color>
-    <color name="n_secondary_text">#EBEBF5</color>
+    <color name="n_secondary_text">#7E7E82</color>
+    <color name="white">#FFFFFF</color>
     <!--End theme-->
 
 </resources>

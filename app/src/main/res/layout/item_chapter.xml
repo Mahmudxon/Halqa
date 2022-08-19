@@ -26,6 +26,7 @@
         cardBackColor="@{theme.cardColor}"
         app:cardElevation="1dp"
         android:layout_marginBottom="2dp"
+        app:cardCornerRadius="2dp"
         >
 
         <androidx.appcompat.widget.LinearLayoutCompat
