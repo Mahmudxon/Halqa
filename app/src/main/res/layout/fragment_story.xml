@@ -27,9 +27,9 @@
                 android:id="@+id/back_button"
                 android:padding="16dp"
                 android:layout_gravity="center"
-                android:layout_width="wrap_content"
+                android:layout_width="?actionBarSize"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_baseline_arrow_back_ios_24"
+                android:src="@drawable/ic_back"
                 iconColor="@{theme.primaryTextColor}"
                 />
 
@@ -41,6 +41,7 @@
                 android:layout_weight="1"
                 android:ellipsize="marquee"
                 android:focusable="true"
+                android:textAlignment="center"
                 android:focusableInTouchMode="true"
                 android:freezesText="true"
                 android:marqueeRepeatLimit="marquee_forever"
@@ -50,6 +51,15 @@
                 android:textSize="18sp"
                 />
 
+
+            <ImageView
+               android:padding="16dp"
+                android:layout_gravity="center"
+                android:layout_width="?actionBarSize"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_audio"
+                iconColor="@{theme.primaryTextColor}"
+                />
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <include android:id="@+id/chapter_layout" layout="@layout/layout_chapter"

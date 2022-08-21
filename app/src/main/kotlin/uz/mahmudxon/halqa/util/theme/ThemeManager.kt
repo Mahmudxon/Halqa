@@ -9,7 +9,7 @@ class ThemeManager @Inject constructor(
 ) {
     var currentTheme: Theme
         get() {
-            val id = prefs.get(prefs.theme, Theme.CLASSIC)
+            val id = prefs.get(prefs.theme, Theme.NIGHT_MODE)
 
             themes.forEach {
                 if (id == it.id)
