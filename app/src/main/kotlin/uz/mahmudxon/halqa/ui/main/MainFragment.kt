@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
+import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
@@ -18,6 +19,7 @@ import uz.mahmudxon.halqa.domain.model.Chapter
 import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
+import uz.mahmudxon.halqa.util.dp
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
@@ -102,6 +104,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                     list.layoutManager =
                         androidx.recyclerview.widget.LinearLayoutManager(parent.context)
                     list.adapter = chaptersAdapter
+                    list.setPadding(8.dp)
                     list
                 }
                 settings -> settingBinding.root

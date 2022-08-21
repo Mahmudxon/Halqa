@@ -17,11 +17,12 @@ abstract class Theme {
     abstract val navigationBarColorV28: Int
     abstract val isLightNavigationBar: Boolean
     /** End System **/
-
+    abstract val actionBarColor : Int
     abstract val backgroundColor: Int
     abstract val cardColor: Int
     abstract val primaryTextColor: Int
     abstract val secondaryTextColor: Int
+    abstract val breakLineColor : Int
 
     companion object {
         const val CLASSIC = 0

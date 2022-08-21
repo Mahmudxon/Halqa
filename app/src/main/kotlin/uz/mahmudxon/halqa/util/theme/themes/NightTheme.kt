@@ -16,13 +16,13 @@ class NightTheme @Inject constructor() : Theme() {
     override val statusBarColor: Int
         get() = R.color.n_color_primary_dark
     override val statusBarColorV23: Int
-        get() = R.color.n_background
+        get() = R.color.n_action_bar_color
     override val isLightStatusBar: Boolean
         get() = false
     override val navigationBarColor: Int
         get() = R.color.n_color_primary_dark
     override val navigationBarColorV28: Int
-        get() = R.color.n_background
+        get() = R.color.n_action_bar_color
     override val isLightNavigationBar: Boolean
         get() = false
 
@@ -34,4 +34,8 @@ class NightTheme @Inject constructor() : Theme() {
         get() = R.color.n_primary_text
     override val secondaryTextColor: Int
         get() = R.color.n_secondary_text
+    override val actionBarColor: Int
+        get() = R.color.n_action_bar_color
+    override val breakLineColor: Int
+        get() = R.color.n_break_line
 }

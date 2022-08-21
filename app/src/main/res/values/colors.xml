@@ -3,22 +3,26 @@
     <!--Classic theme-->
     <color name="cl_color_primary">#fafafa</color>
     <color name="cl_color_primary_dark">#c7c7c7</color>
-    <color name="cl_color_accent">#ffffff</color>
-    <color name="cl_background">#EFEFF4</color>
-    <color name="cl_card">#F6F6F6</color>
-    <color name="cl_primary_text">#000000</color>
-    <color name="cl_secondary_text">#8E8E93</color>
+    <color name="cl_color_accent">#2CCA9A</color>
+    <color name="cl_background">#F7F9F6</color>
+    <color name="cl_action_bar_color">#FFFFFF</color>
+    <color name="cl_card">#FFFFFF</color>
+    <color name="cl_primary_text">#333333</color>
+    <color name="cl_secondary_text">#A3A3A3</color>
+    <color name="cl_break_line">#4A3C3C43</color>
     <!--End theme-->
 
     <!--Night theme-->
     <color name="n_color_primary">#000000</color>
     <color name="n_color_primary_dark">#000000</color>
     <color name="n_color_accent">#2c2c2c</color>
-    <color name="n_background">#1C1C1D</color>
-    <color name="n_card">#000000</color>
-    <color name="n_primary_text">#FFFFFF</color>
-    <color name="n_secondary_text">#7E7E82</color>
+    <color name="n_background">#2B2B2B</color>
+    <color name="n_action_bar_color">#313335</color>
+    <color name="n_card">#313335</color>
+    <color name="n_primary_text">#CACACA</color>
+    <color name="n_secondary_text">#A3A3A3</color>
     <color name="white">#FFFFFF</color>
+    <color name="n_break_line">#A6545458</color>
     <!--End theme-->
 
 </resources>

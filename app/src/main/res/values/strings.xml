@@ -8,4 +8,6 @@
     <string name="home">Бош саҳифа</string>
     <string name="audio_book">Aудио китоб</string>
     <string name="settings">Созламалар</string>
+    <string name="color_theme">Дастур кўриниши</string>
+    <string name="auto_night_mode">Aвтоматик тунги кўриниш</string>
 </resources>
