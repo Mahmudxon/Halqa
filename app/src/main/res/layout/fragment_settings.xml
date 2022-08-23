@@ -90,6 +90,37 @@
                         android:gravity="center"
                         android:orientation="horizontal">
 
+                        <TextView
+                            textColor="@{theme.primaryTextColor}"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="16dp"
+                            android:layout_weight="1"
+                            android:text="@string/themes"
+                            android:textSize="16sp" />
+
+                        <ImageView
+                            iconColor="@{theme.secondaryTextColor}"
+                            android:layout_width="?actionBarSize"
+                            android:layout_height="?actionBarSize"
+                            android:padding="16dp"
+                            android:src="@drawable/ic_baseline_navigate_next_24" />
+
+                    </androidx.appcompat.widget.LinearLayoutCompat>
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        backgroundColor="@{theme.breakLineColor}"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp" />
+
+                    <androidx.appcompat.widget.LinearLayoutCompat
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
 
                         <ImageView
                             iconColor="@{theme.primaryTextColor}"
@@ -110,21 +141,117 @@
                     </androidx.appcompat.widget.LinearLayoutCompat>
 
 
-                    <androidx.appcompat.widget.LinearLayoutCompat
-                        backgroundColor="@{theme.breakLineColor}"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp" />
+                </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
 
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/themes"
-                        android:layout_width="match_parent"
+
+            <TextView
+                textColor="@{theme.secondaryTextColor}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="8dp"
+                android:text="@string/font_size"
+                android:textSize="16sp" />
+
+
+            <androidx.cardview.widget.CardView
+                cardBackColor="@{theme.cardColor}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"
+                android:foreground="?selectableItemBackground"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="?actionBarSize"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        textColor="@{theme.primaryTextColor}"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        tools:itemCount="1"
-                        tools:listitem="@layout/item_theme" />
+                        android:layout_marginStart="16dp"
+                        android:text="A"
+                        android:textSize="12sp" />
+
+                    <SeekBar
+                        android:id="@+id/fontSizeSeekbar"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:max="18" />
+
+                    <TextView
+                        textColor="@{theme.primaryTextColor}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:text="A"
+                        android:textSize="30sp" />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
+            </androidx.cardview.widget.CardView>
+
+
+            <androidx.cardview.widget.CardView
+                cardBackColor="@{theme.cardColor}"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginRight="4dp"
+                android:layout_marginBottom="4dp"
+                android:foreground="?selectableItemBackground"
+                app:cardCornerRadius="4dp"
+                app:cardElevation="0dp">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp"
+                    >
+
+
+                    <TextView
+                        textColor="@{theme.primaryTextColor}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/test_title"
+                        android:textSize="20sp"
+                        android:textAlignment="center"
+                        />
+
+
+                    <TextView
+                        textColor="@{theme.secondaryTextColor}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="16sp"
+                        android:textAlignment="center"
+                        android:text="@string/test_description"
+                        />
+
+                    <TextView
+                        textColor="@{theme.primaryTextColor}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/test_story"
+                        android:textSize="16sp"
+                        android:maxLength="200"
+                        />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
             </androidx.cardview.widget.CardView>
 
         </androidx.appcompat.widget.LinearLayoutCompat>

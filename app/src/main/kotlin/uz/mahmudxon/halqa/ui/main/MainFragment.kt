@@ -42,12 +42,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onCreate(view: View) {
         settingBinding = FragmentSettingsBinding.inflate(layoutInflater)
-        settingBinding.themes.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        settingBinding.themes.adapter = themeAdapter
         chaptersAdapter.setItemClickListener(this)
         binding.viewPager.adapter = ViewpagerAdapter()
         binding.viewPager.offscreenPageLimit = 3
         binding.viewPager.isUserInputEnabled = false
+
         binding.bottomNavigation.setOnItemSelectedListener(this)
         viewModel.getChaptersList()
         viewModel.chaptersState.observe(this) { state ->

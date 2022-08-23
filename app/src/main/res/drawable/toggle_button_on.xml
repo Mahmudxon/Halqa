@@ -5,7 +5,7 @@
     <item
         android:drawable="@drawable/white_toggle_icon"
         android:right="2dp"
-        android:left="27.5dp"
+        android:left="24.5dp"
         android:bottom="1.5dp"
         android:top="1.5dp"/>
 </layer-list>
