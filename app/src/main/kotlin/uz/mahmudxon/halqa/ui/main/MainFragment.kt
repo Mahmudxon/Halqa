@@ -8,6 +8,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationBarView
@@ -19,6 +20,7 @@ import uz.mahmudxon.halqa.domain.model.Chapter
 import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
+import uz.mahmudxon.halqa.ui.list.ThemeAdapter
 import uz.mahmudxon.halqa.util.dp
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
@@ -32,10 +34,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     @Inject
     lateinit var chaptersAdapter: ChaptersAdapter
+
+    @Inject
+    lateinit var themeAdapter: ThemeAdapter
+
     lateinit var settingBinding : FragmentSettingsBinding
 
     override fun onCreate(view: View) {
         settingBinding = FragmentSettingsBinding.inflate(layoutInflater)
+        settingBinding.themes.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        settingBinding.themes.adapter = themeAdapter
         chaptersAdapter.setItemClickListener(this)
         binding.viewPager.adapter = ViewpagerAdapter()
         binding.viewPager.offscreenPageLimit = 3
