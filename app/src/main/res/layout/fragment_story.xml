@@ -1,75 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <data>
+
         <variable
             name="theme"
             type="uz.mahmudxon.halqa.util.theme.Theme" />
-        <variable name="loading" type="Boolean" />
+
+        <variable
+            name="loading"
+            type="Boolean" />
+
+        <variable
+            name="is_playing"
+            type="Boolean" />
     </data>
 
     <androidx.appcompat.widget.LinearLayoutCompat
+        backgroundColor="@{theme.actionBarColor}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        backgroundColor="@{theme.actionBarColor}">
+        android:orientation="vertical">
 
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
-            android:gravity="center"
-            android:layout_height="?actionBarSize">
+            android:layout_height="?actionBarSize"
+            android:gravity="center">
 
 
             <ImageView
                 android:id="@+id/back_button"
-                android:padding="16dp"
-                android:layout_gravity="center"
+                iconColor="@{theme.primaryTextColor}"
                 android:layout_width="?actionBarSize"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_back"
-                iconColor="@{theme.primaryTextColor}"
-                />
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:src="@drawable/ic_back" />
 
 
             <TextView
                 android:id="@+id/title"
+                textColor="@{theme.primaryTextColor}"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:ellipsize="marquee"
                 android:focusable="true"
-                android:textAlignment="center"
                 android:focusableInTouchMode="true"
                 android:freezesText="true"
                 android:marqueeRepeatLimit="marquee_forever"
                 android:scrollHorizontally="true"
                 android:singleLine="true"
-                textColor="@{theme.primaryTextColor}"
-                android:textSize="18sp"
-                />
+                android:textAlignment="center"
+                android:textSize="18sp" />
 
 
             <ImageView
-               android:padding="16dp"
-                android:layout_gravity="center"
+                iconColor="@{theme.primaryTextColor}"
                 android:layout_width="?actionBarSize"
                 android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="16dp"
                 android:src="@drawable/ic_audio"
-                iconColor="@{theme.primaryTextColor}"
+                visibility="@{is_playing == false}"
                 />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:layout_width="?actionBarSize"
+                android:layout_height="match_parent"
+                android:padding="16dp"
+                android:scaleType="fitXY"
+                app:lottie_autoPlay="true"
+                app:lottie_loop="true"
+                app:lottie_rawRes="@raw/audio_wave"
+                visibility="@{is_playing}"
+                layerColor="@{theme.primaryTextColor}"
+                />
+
         </androidx.appcompat.widget.LinearLayoutCompat>
 
-        <include android:id="@+id/chapter_layout" layout="@layout/layout_chapter"
-            visibility="@{!loading}"
-            />
+
+        <include
+            android:id="@+id/chapter_layout"
+            layout="@layout/layout_chapter"
+            visibility="@{!loading}" />
 
         <FrameLayout
+            visibility="@{loading}"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            visibility="@{loading}">
+            android:layout_height="match_parent">
 
             <com.google.android.material.progressindicator.CircularProgressIndicator
                 progressColor="@{theme.primaryTextColor}"

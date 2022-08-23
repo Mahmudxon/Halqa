@@ -7,6 +7,12 @@ class ThemeManager @Inject constructor(
     private val prefs: Prefs,
     val themes: Set<@JvmSuppressWildcards Theme>
 ) {
+    var autoDarkMode: Boolean
+        set(value) {
+            prefs.save(prefs.autoDarkTheme, value)
+        }
+        get() = prefs.get(prefs.autoDarkTheme, false)
+
     var currentTheme: Theme
         get() {
             val id = prefs.get(prefs.theme, Theme.CLASSIC)

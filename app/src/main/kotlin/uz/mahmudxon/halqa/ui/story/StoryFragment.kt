@@ -20,6 +20,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         val id = arguments?.getInt("id")
         id?.let { viewModel.getChapter(it) }
         binding.backButton.setOnClickListener { finish() }
+        binding.isPlaying = true
         viewModel.chapter.observe(this)
         { state->
             state.data?.let {
