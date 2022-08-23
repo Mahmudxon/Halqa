@@ -109,8 +109,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             val view: View = when (viewType) {
                 home -> {
                     val list = RecyclerView(parent.context)
-                    list.layoutManager =
-                        androidx.recyclerview.widget.LinearLayoutManager(parent.context)
+                    list.layoutManager = LinearLayoutManager(parent.context)
                     list.adapter = chaptersAdapter
                     list.setPadding(8.dp)
                     list
