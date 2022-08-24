@@ -47,18 +47,22 @@ class MainActivity : AppCompatActivity(), IThemeChanger {
         binding.navHostFragment.visibility = View.INVISIBLE
     }
 
-    override fun startCircularAnimation(x: Int, y: Int) {
+    override fun startCircularAnimation(x: Int, y: Int, isReverse: Boolean) {
         binding.navHostFragment.visibility = View.VISIBLE
+        val start = if (isReverse) finalRadius else 0f
+        val finally = if (isReverse) 0f else finalRadius
+        binding.screenShoot.elevation = if (isReverse) 30f else 0f
         val anim = ViewAnimationUtils.createCircularReveal(
-            binding.navHostFragment,
+            if (isReverse) binding.screenShoot else binding.navHostFragment,
             x,
             y,
-            0F,
-            finalRadius
+            start,
+            finally
         )
-        anim.duration = 600L
+        anim.duration = 500L
         anim.doOnEnd {
             canChangeTheme = true
+            binding.screenShoot.visibility = View.GONE
         }
         anim.start()
     }

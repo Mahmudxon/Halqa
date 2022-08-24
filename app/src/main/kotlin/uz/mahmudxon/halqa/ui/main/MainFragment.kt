@@ -10,7 +10,6 @@ import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.R
@@ -28,7 +27,8 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
-    SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener  {
+    SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
+    View.OnClickListener {
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -38,10 +38,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     @Inject
     lateinit var themeAdapter: ThemeAdapter
 
-    lateinit var settingBinding : FragmentSettingsBinding
+    lateinit var settingBinding: FragmentSettingsBinding
 
     override fun onCreate(view: View) {
         settingBinding = FragmentSettingsBinding.inflate(layoutInflater)
+        settingBinding.onClick = this
         chaptersAdapter.setItemClickListener(this)
         binding.viewPager.adapter = ViewpagerAdapter()
         binding.viewPager.offscreenPageLimit = 3
@@ -82,7 +83,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
-       return when (item.itemId) {
+        return when (item.itemId) {
             R.id.chapter -> {
                 binding.viewPager.currentItem = 0
                 true
@@ -100,9 +101,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     }
 
     private inner class ViewpagerAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-        private var home : Int = -1
-        private var audio : Int = -1
-        private var settings : Int = -1
+        private var home: Int = -1
+        private var audio: Int = -1
+        private var settings: Int = -1
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val view: View = when (viewType) {
@@ -138,5 +139,25 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         }
+    }
+
+    override fun onClick(v: View?) {
+        when (v?.id) {
+            R.id.changeTheme -> changeTheme()
+        }
+
+    }
+
+    private fun changeTheme() {
+        if(themeChanger?.canChangeTheme() != true)
+            return
+        themeChanger?.takeScreenshot()
+        themeManager.currentTheme = if(themeManager.currentTheme.isDark) themeManager.lastLightTheme else themeManager.lastDarkTheme
+        notifyThemeChanged()
+        val coordinate = IntArray(2)
+        settingBinding.themeIcon.getLocationOnScreen(coordinate)
+        val x = coordinate[0] + (settingBinding.themeIcon.width/2)
+        val y = coordinate[1] //+ (settingBinding.themeIcon.height/2)
+        themeChanger?.startCircularAnimation(x, y, !themeManager.currentTheme.isDark)
     }
 }
