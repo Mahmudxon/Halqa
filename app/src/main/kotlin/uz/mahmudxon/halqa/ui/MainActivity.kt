@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewAnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.animation.doOnEnd
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.databinding.ActivityMainBinding
 import uz.mahmudxon.halqa.util.theme.IThemeChanger
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity(), IThemeChanger {
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)

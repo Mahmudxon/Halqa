@@ -135,14 +135,14 @@
                             android:layout_width="?actionBarSize"
                             android:layout_height="?actionBarSize"
                             android:padding="16dp"
-                            android:src="@drawable/ic_moon" />
+                            android:src="@{theme.dark ? @drawable/ic_sun : @drawable/ic_moon}" />
 
                         <TextView
                             textColor="@{theme.primaryTextColor}"
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="@string/night_mode"
+                            android:text="@{theme.dark ? @string/change_to_light_mode : @string/change_to_night_mode}"
                             android:textSize="16sp" />
 
 

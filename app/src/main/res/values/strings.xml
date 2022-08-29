@@ -12,4 +12,6 @@
     <string name="auto_night_mode">Aвтоматик тунги кўриниш</string>
     <string name="themes">Мавзулар</string>
     <string name="font_size">Матн ўлчами</string>
+    <string name="change_to_night_mode">Тунги режимга ўтиш</string>
+    <string name="change_to_light_mode">Кундузги режимга ўтиш</string>
 </resources>

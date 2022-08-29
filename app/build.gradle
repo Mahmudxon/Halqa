@@ -79,6 +79,9 @@ dependencies {
     // Lottie
     def lottieVersion = "5.2.0"
     implementation "com.airbnb.android:lottie:$lottieVersion"
+
+    //splash
+    implementation 'androidx.core:core-splashscreen:1.0.0'
 }
 
 kapt {
