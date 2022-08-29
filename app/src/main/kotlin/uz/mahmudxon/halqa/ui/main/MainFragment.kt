@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CompoundButton
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.setPadding
@@ -28,7 +29,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
-    View.OnClickListener {
+    View.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -47,7 +48,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         binding.viewPager.adapter = ViewpagerAdapter()
         binding.viewPager.offscreenPageLimit = 3
         binding.viewPager.isUserInputEnabled = false
-
+        settingBinding.autoThemeChange.isChecked = themeManager.autoDarkMode
+        settingBinding.autoThemeChange.setOnCheckedChangeListener(this)
         binding.bottomNavigation.setOnItemSelectedListener(this)
         viewModel.getChaptersList()
         viewModel.chaptersState.observe(this) { state ->
@@ -143,21 +145,31 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.changeTheme -> changeTheme()
+            R.id.changeTheme -> {
+                settingBinding.autoThemeChange.isChecked = false
+                changeTheme(settingBinding.themeIcon)
+            }
         }
-
     }
 
-    private fun changeTheme() {
-        if(themeChanger?.canChangeTheme() != true)
+    override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
+        themeManager.autoDarkMode = isChecked
+        if (isChecked && themeChanger?.isSystemDark() != themeManager.currentTheme.isDark)
+            buttonView?.let { changeTheme(it) }
+    }
+
+    private fun changeTheme(view: View) {
+        if (themeChanger?.canChangeTheme() != true)
             return
         themeChanger?.takeScreenshot()
-        themeManager.currentTheme = if(themeManager.currentTheme.isDark) themeManager.lastLightTheme else themeManager.lastDarkTheme
+        themeManager.currentTheme =
+            if (themeManager.currentTheme.isDark) themeManager.lastLightTheme else themeManager.lastDarkTheme
+        chaptersAdapter.notifyDataSetChanged()
         notifyThemeChanged()
         val coordinate = IntArray(2)
-        settingBinding.themeIcon.getLocationOnScreen(coordinate)
-        val x = coordinate[0] + (settingBinding.themeIcon.width/2)
-        val y = coordinate[1] //+ (settingBinding.themeIcon.height/2)
+        view.getLocationOnScreen(coordinate)
+        val x = coordinate[0] + (view.width / 2)
+        val y = coordinate[1]
         themeChanger?.startCircularAnimation(x, y, !themeManager.currentTheme.isDark)
     }
 }

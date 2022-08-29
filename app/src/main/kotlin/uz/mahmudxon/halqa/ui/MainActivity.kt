@@ -1,5 +1,6 @@
 package uz.mahmudxon.halqa.ui
 
+import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity(), IThemeChanger {
 
     private var canChangeTheme = true
     private var finalRadius: Float = 0F
+    private var isSystemDarkTheme = false
 
     @Inject
     lateinit var themeManager: ThemeManager
@@ -28,10 +30,32 @@ class MainActivity : AppCompatActivity(), IThemeChanger {
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        val splashScreen = installSplashScreen()
+        installSplashScreen()
         super.onCreate(savedInstanceState)
+        setAutoDark()
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
+    }
+
+
+    private fun setAutoDark() {
+        when (resources.configuration.uiMode.and(Configuration.UI_MODE_NIGHT_MASK)) {
+            Configuration.UI_MODE_NIGHT_YES -> {
+                setDarkMode(true)
+            }
+            Configuration.UI_MODE_NIGHT_NO -> {
+                setDarkMode(false)
+            }
+            Configuration.UI_MODE_NIGHT_UNDEFINED -> {}
+        }
+    }
+
+    private fun setDarkMode(isDark: Boolean) {
+        isSystemDarkTheme = isDark
+        if (themeManager.autoDarkMode) {
+            themeManager.currentTheme =
+                if (isDark) themeManager.lastDarkTheme else themeManager.lastLightTheme
+        }
     }
 
 
@@ -70,5 +94,7 @@ class MainActivity : AppCompatActivity(), IThemeChanger {
     }
 
     override fun canChangeTheme() = canChangeTheme
+
+    override fun isSystemDark(): Boolean = isSystemDarkTheme
 
 }

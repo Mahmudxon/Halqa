@@ -4,4 +4,5 @@ interface IThemeChanger {
     fun takeScreenshot()
     fun startCircularAnimation(x: Int, y: Int, isReverse : Boolean)
     fun canChangeTheme(): Boolean
+    fun isSystemDark() : Boolean
 }
