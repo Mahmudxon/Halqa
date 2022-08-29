@@ -11,7 +11,7 @@ class ThemeManager @Inject constructor(
         set(value) {
             prefs.save(prefs.autoDarkTheme, value)
         }
-        get() = prefs.get(prefs.autoDarkTheme, false)
+        get() = prefs.get(prefs.autoDarkTheme, true)
 
     var currentTheme: Theme
         get() {

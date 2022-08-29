@@ -5,6 +5,7 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
+import android.widget.SeekBar
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.setPadding
@@ -21,6 +22,7 @@ import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
 import uz.mahmudxon.halqa.ui.list.ThemeAdapter
+import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.dp
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
@@ -29,7 +31,7 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
-    View.OnClickListener, CompoundButton.OnCheckedChangeListener {
+    View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -38,6 +40,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     @Inject
     lateinit var themeAdapter: ThemeAdapter
+
+    @Inject
+    lateinit var fontManager: FontManager
 
     lateinit var settingBinding: FragmentSettingsBinding
 
@@ -48,6 +53,8 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         binding.viewPager.adapter = ViewpagerAdapter()
         binding.viewPager.offscreenPageLimit = 3
         binding.viewPager.isUserInputEnabled = false
+        settingBinding.fontSizeSeekbar.setOnSeekBarChangeListener(this)
+        settingBinding.fontSizeSeekbar.setProgress(fontManager.fontSize - 12, false)
         settingBinding.autoThemeChange.isChecked = themeManager.autoDarkMode
         settingBinding.autoThemeChange.setOnCheckedChangeListener(this)
         binding.bottomNavigation.setOnItemSelectedListener(this)
@@ -171,5 +178,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         val x = coordinate[0] + (view.width / 2)
         val y = coordinate[1]
         themeChanger?.startCircularAnimation(x, y, !themeManager.currentTheme.isDark)
+    }
+
+    override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
+        fontManager.fontSize = p1 + 12
+        settingBinding.fontSize = fontManager.fontSize
+        chaptersAdapter.notifyDataSetChanged()
+    }
+
+    override fun onStartTrackingTouch(p0: SeekBar?) {
+
+    }
+
+    override fun onStopTrackingTouch(p0: SeekBar?) {
+
     }
 }

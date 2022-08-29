@@ -12,6 +12,10 @@
         <variable
             name="onClick"
             type="android.view.View.OnClickListener" />
+
+        <variable
+            name="fontSize"
+            type="Integer" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -235,7 +239,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/test_title"
-                        android:textSize="20sp"
+                        tools:textSize="20sp"
+                        android:textStyle="bold"
+                        textSize="@{(fontSize + 2)}"
                         android:textAlignment="center"
                         />
 
@@ -244,7 +250,8 @@
                         textColor="@{theme.secondaryTextColor}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textSize="16sp"
+                        tools:textSize="16sp"
+                        textSize="@{fontSize}"
                         android:textAlignment="center"
                         android:text="@string/test_description"
                         />
@@ -254,7 +261,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="@string/test_story"
-                        android:textSize="16sp"
+                        tools:textSize="16sp"
+                        textSize="@{fontSize}"
                         android:maxLength="200"
                         />
 

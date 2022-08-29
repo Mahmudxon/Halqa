@@ -12,6 +12,7 @@ class Prefs @Inject constructor(@ApplicationContext context: Context) {
     val lastDarkTheme = "lastDarkTheme"
     val lastLightTheme = "lastLightTheme"
     val autoDarkTheme = "autoDarkTheme"
+    val fontSize = "fontSize"
 
     private val prefsName: String = "Mahmudxon@${context.applicationInfo.packageName}"
     private val prefs: SharedPreferences by lazy {

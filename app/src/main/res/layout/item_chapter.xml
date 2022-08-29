@@ -16,19 +16,23 @@
         <variable
             name="chapter"
             type="uz.mahmudxon.halqa.domain.model.Chapter" />
+
+        <variable
+            name="fontSize"
+            type="Integer" />
     </data>
 
 
     <androidx.cardview.widget.CardView
-       android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:foreground="?selectableItemBackground"
         cardBackColor="@{theme.cardColor}"
-        app:cardElevation="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        app:cardCornerRadius="4dp">
+        android:foreground="?selectableItemBackground"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="0dp">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -47,23 +51,23 @@
 
                 <TextView
                     textColor="@{theme.primaryTextColor}"
+                    textSize="@{(fontSize + 2)}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{chapter.title}"
-                    android:textSize="16sp"
                     android:textStyle="bold"
                     tools:text="Chapter 1"
-                     />
+                    tools:textSize="16sp" />
 
                 <TextView
                     textColor="@{theme.secondaryTextColor}"
+                    textSize="@{fontSize}"
+                    visibility="@{chapter.description.length() > 0}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{chapter.description}"
-                    android:textSize="14sp"
                     tools:text="Chapter 1"
-                    visibility="@{chapter.description.length() > 0}"
-                    />
+                    tools:textSize="14sp" />
 
 
             </androidx.appcompat.widget.LinearLayoutCompat>

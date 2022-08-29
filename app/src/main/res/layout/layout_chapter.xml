@@ -11,6 +11,11 @@
         <variable
             name="chapter"
             type="uz.mahmudxon.halqa.domain.model.Chapter" />
+
+
+        <variable
+            name="fontSize"
+            type="Integer" />
     </data>
 
     <androidx.core.widget.NestedScrollView
@@ -33,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:text="@{chapter.title}"
                 tools:text="@string/test_title"
-                android:textSize="20sp"
+                textSize="@{(fontSize + 2)}"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
                 android:textAlignment="center"
@@ -45,7 +50,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@{chapter.description}"
-                android:textSize="16sp"
+                textSize="@{fontSize}"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
                 android:textAlignment="center"
@@ -61,7 +66,7 @@
                 tools:text="@string/test_story"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                android:textSize="16sp"
+                textSize="@{fontSize}"
                 />
 
         </androidx.appcompat.widget.LinearLayoutCompat>

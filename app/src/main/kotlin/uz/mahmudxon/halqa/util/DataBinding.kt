@@ -4,6 +4,7 @@ import android.content.res.ColorStateList
 import android.graphics.ColorFilter
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
+import android.util.TypedValue
 import android.view.View
 import android.widget.*
 import androidx.annotation.ColorRes
@@ -21,7 +22,7 @@ import uz.mahmudxon.halqa.util.theme.Theme
 
 @BindingAdapter("backgroundColor")
 fun setBackgroundColor(view: View, colorId: Int) {
-    if(colorId == 0)
+    if (colorId == 0)
         return
     val color = ContextCompat.getColor(view.context, colorId)
     view.setBackgroundColor(color)
@@ -111,7 +112,7 @@ fun setVisibility(view: View, visible: Boolean) {
 
 @BindingAdapter("cardBackColor")
 fun setCardBack(view: CardView, colorId: Int) {
-    if(colorId == 0) return
+    if (colorId == 0) return
     val color = ContextCompat.getColor(view.context, colorId)
     view.setCardBackgroundColor(color)
 }
@@ -130,7 +131,7 @@ fun setOnClickListener(view: View, onClick: View.OnClickListener?) {
 
 @BindingAdapter("layerColor")
 fun changeLayersColor(
-    animationView : LottieAnimationView,
+    animationView: LottieAnimationView,
     @ColorRes colorRes: Int
 ) {
     val color = ContextCompat.getColor(animationView.context, colorRes)
@@ -139,4 +140,10 @@ fun changeLayersColor(
     val callback: LottieValueCallback<ColorFilter> = LottieValueCallback(filter)
 
     animationView.addValueCallback(keyPath, LottieProperty.COLOR_FILTER, callback)
+}
+
+
+@BindingAdapter("textSize")
+fun setTextSize(view: TextView, textSize: Int) {
+    view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize.toFloat())
 }
