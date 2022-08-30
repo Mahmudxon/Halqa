@@ -231,12 +231,13 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     android:padding="16dp"
+                    android:gravity="center"
                     >
 
 
                     <TextView
                         textColor="@{theme.primaryTextColor}"
-                        android:layout_width="match_parent"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/test_story"
                         tools:textSize="16sp"

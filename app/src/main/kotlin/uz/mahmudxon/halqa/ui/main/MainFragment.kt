@@ -83,7 +83,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 intArrayOf(android.R.attr.state_checked)
             ), intArrayOf(
                 ContextCompat.getColor(requireContext(), theme.secondaryTextColor),
-                ContextCompat.getColor(requireContext(), theme.primaryTextColor)
+                ContextCompat.getColor(requireContext(), R.color.cl_color_accent)
             )
         )
         binding.bottomNavigation.itemIconTintList = iconColorStates
