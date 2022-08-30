@@ -238,34 +238,22 @@
                         textColor="@{theme.primaryTextColor}"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="@string/test_title"
-                        tools:textSize="20sp"
-                        android:textStyle="bold"
-                        textSize="@{(fontSize + 2)}"
-                        android:textAlignment="center"
-                        />
-
-
-                    <TextView
-                        textColor="@{theme.secondaryTextColor}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        tools:textSize="16sp"
-                        textSize="@{fontSize}"
-                        android:textAlignment="center"
-                        android:text="@string/test_description"
-                        />
-
-                    <TextView
-                        textColor="@{theme.primaryTextColor}"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
                         android:text="@string/test_story"
                         tools:textSize="16sp"
                         textSize="@{fontSize}"
                         android:maxLength="200"
                         />
 
+                    <TextView
+                        textColor="@{theme.primaryTextColor}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/test_title"
+                        tools:textSize="20sp"
+                        android:textStyle="bold"
+                        textSize="@{(fontSize + 2)}"
+                        android:textAlignment="textEnd"
+                        />
 
                 </androidx.appcompat.widget.LinearLayoutCompat>
 

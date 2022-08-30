@@ -51,7 +51,7 @@
 
                 <TextView
                     textColor="@{theme.primaryTextColor}"
-                    textSize="@{(fontSize + 2)}"
+                    textSize="@{fontSize}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@{chapter.title}"
@@ -61,7 +61,7 @@
 
                 <TextView
                     textColor="@{theme.secondaryTextColor}"
-                    textSize="@{fontSize}"
+                    textSize="@{(fontSize-2)}"
                     visibility="@{chapter.description.length() > 0}"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
