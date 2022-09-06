@@ -17,9 +17,11 @@ import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.R
 import uz.mahmudxon.halqa.databinding.FragmentMainBinding
 import uz.mahmudxon.halqa.databinding.FragmentSettingsBinding
+import uz.mahmudxon.halqa.domain.model.AudioBook
 import uz.mahmudxon.halqa.domain.model.Chapter
 import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
+import uz.mahmudxon.halqa.ui.list.AudioBookAdapter
 import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
 import uz.mahmudxon.halqa.ui.list.ThemeAdapter
 import uz.mahmudxon.halqa.util.FontManager
@@ -39,6 +41,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     lateinit var chaptersAdapter: ChaptersAdapter
 
     @Inject
+    lateinit var audioBookAdapter: AudioBookAdapter
+
+    @Inject
     lateinit var themeAdapter: ThemeAdapter
 
     @Inject
@@ -50,6 +55,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         settingBinding = FragmentSettingsBinding.inflate(layoutInflater)
         settingBinding.onClick = this
         chaptersAdapter.setItemClickListener(this)
+        audioBookAdapter.setItemClickListener(AudioListener())
         binding.viewPager.adapter = ViewpagerAdapter()
         binding.viewPager.offscreenPageLimit = 3
         binding.viewPager.isUserInputEnabled = false
@@ -116,10 +122,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
             val view: View = when (viewType) {
-                home -> {
+                home, audio -> {
                     val list = RecyclerView(parent.context)
                     list.layoutManager = LinearLayoutManager(parent.context)
-                    list.adapter = chaptersAdapter
+                    list.adapter = if (viewType == home) chaptersAdapter else audioBookAdapter
                     list.setPadding(8.dp)
                     list
                 }
@@ -172,6 +178,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         themeManager.currentTheme =
             if (themeManager.currentTheme.isDark) themeManager.lastLightTheme else themeManager.lastDarkTheme
         chaptersAdapter.notifyDataSetChanged()
+        audioBookAdapter.notifyDataSetChanged()
         notifyThemeChanged()
         val coordinate = IntArray(2)
         view.getLocationOnScreen(coordinate)
@@ -192,5 +199,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onStopTrackingTouch(p0: SeekBar?) {
 
+    }
+
+    private inner class AudioListener : SingleTypeAdapter.OnItemClickListener<AudioBook> {
+        override fun onListItemClick(item: AudioBook) {
+
+        }
     }
 }

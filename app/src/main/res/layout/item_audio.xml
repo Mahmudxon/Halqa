@@ -1,16 +1,127 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
         <variable
+            name="Title"
+            type="String" />
+
+        <variable
+            name="Description"
+            type="String" />
+
+        <variable
+            name="onClick"
+            type="android.view.View.OnClickListener" />
+
+        <variable
+            name="Status"
+            type="Integer" />
+
+        <variable
             name="theme"
             type="uz.mahmudxon.halqa.util.theme.Theme" />
+
     </data>
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        cardBackColor="@{theme.cardColor}"
+        app:cardCornerRadius="6dp">
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:backgroundColor="#fff"
+            >
+
+            <FrameLayout
+                android:id="@+id/imageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_margin="16dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:onClick="@{onClick}">
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/play_button_back"
+                    android:padding="8dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_audio_book" />
+
+                <ImageView
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_gravity="bottom|right"
+                    android:background="@drawable/inner_button_back"
+                    android:padding="5dp"
+                    android:scaleType="fitXY"
+                    android:src="@drawable/ic_download"
+                    visibility="@{Status == 0}" />
+
+                <ProgressBar
+                    android:id="@+id/pb"
+                    style="@android:style/Widget.Holo.Light.ProgressBar.Large.Inverse"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:indeterminateTint="@color/white"
+                    android:max="100"
+                    android:progress="0"
+                    tools:visibility="visible"
+                    visibility="@{Status == 1}" />
+
+            </FrameLayout>
+
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/open_sans"
+                android:singleLine="true"
+                android:text="@{Title}"
+                textColor="@{theme.primaryTextColor}"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/description"
+                app:layout_constraintLeft_toRightOf="@id/imageView"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_chainStyle="packed"
+                tools:text="1-bob" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="16dp"
+                android:layout_marginRight="16dp"
+                android:fontFamily="@font/open_sans"
+                android:singleLine="true"
+                android:text="@{Description}"
+                textColor="@{theme.secondaryTextColor}"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toRightOf="@id/imageView"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/title"
+                visibility="@{Status == 0}"
+                tools:text="5.3 MB | M4A" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.cardview.widget.CardView>
 </layout>
