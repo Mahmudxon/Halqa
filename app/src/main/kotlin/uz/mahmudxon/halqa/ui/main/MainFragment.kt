@@ -26,6 +26,7 @@ import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
 import uz.mahmudxon.halqa.ui.list.ThemeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.dp
+import uz.mahmudxon.halqa.util.getFakeList
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
@@ -68,6 +69,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         viewModel.chaptersState.observe(this) { state ->
             state.data?.let {
                 chaptersAdapter.swapData(it)
+                audioBookAdapter.swapData(getFakeList())
             }
         }
     }

@@ -4,7 +4,7 @@ data class AudioBook(
     val id: Int,
     val title: String,
     val description: String,
-    val status: Int
+    var status: Int
 ) {
     object Status {
         const val ONLINE = 0
