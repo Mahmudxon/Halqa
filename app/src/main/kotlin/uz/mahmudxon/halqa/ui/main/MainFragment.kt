@@ -183,9 +183,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         audioBookAdapter.notifyDataSetChanged()
         notifyThemeChanged()
         val coordinate = IntArray(2)
-        view.getLocationOnScreen(coordinate)
+        view.getLocationInWindow(coordinate)
         val x = coordinate[0] + (view.width / 2)
-        val y = coordinate[1]
+        val y = coordinate[1] //+ (view.height/2)
         themeChanger?.startCircularAnimation(x, y, !themeManager.currentTheme.isDark)
     }
 

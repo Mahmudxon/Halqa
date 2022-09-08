@@ -3,12 +3,11 @@ package uz.mahmudxon.halqa.domain.model
 data class AudioBook(
     val id: Int,
     val title: String,
-    val description: String,
-    var status: Int
+    var status: Status
 ) {
-    object Status {
-        const val ONLINE = 0
-        const val DOWNLOADING = 1
-        const val DOWNLOADED = 2
+    sealed class Status {
+        data class Online(var size: Long, val format: String = "M4A") : Status()
+        data class Downloading(var current: Long = 0L, val total: Long) : Status()
+        data class Playing(var isPlaying: Boolean = false) : Status()
     }
 }
