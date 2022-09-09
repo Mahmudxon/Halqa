@@ -51,6 +51,14 @@
                 android:layout_height="40dp"
                 android:background="@drawable/play_button_back">
 
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/progress"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_gravity="center"
+                    android:indeterminate="true"
+                    app:indicatorColor="@color/white" />
+
                 <ImageView
                     android:id="@+id/icon"
                     android:layout_width="match_parent"

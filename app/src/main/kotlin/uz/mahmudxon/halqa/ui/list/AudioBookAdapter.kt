@@ -1,5 +1,6 @@
 package uz.mahmudxon.halqa.ui.list
 
+import android.view.View
 import androidx.databinding.ViewDataBinding
 import uz.mahmudxon.halqa.R
 import uz.mahmudxon.halqa.databinding.ItemAudioBinding
@@ -20,6 +21,8 @@ class AudioBookAdapter @Inject constructor(
             binding.fontSize = fontManager.fontSize
             with(data[position]) {
                 binding.title = title
+                binding.progress.visibility =
+                    if (status is AudioBook.Status.Downloading) View.VISIBLE else View.GONE
                 when (val status = this.status) {
                     is AudioBook.Status.Online -> binding.icon.setImageResource(R.drawable.ic_download)
                     is AudioBook.Status.Downloading -> {
