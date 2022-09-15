@@ -32,7 +32,6 @@ import uz.mahmudxon.halqa.util.dp
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
-
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
@@ -74,7 +73,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         settingBinding = FragmentSettingsBinding.inflate(layoutInflater)
         settingBinding.onClick = this
         chaptersAdapter.setItemClickListener(this)
-        audioBookAdapter.setItemClickListener(AudioListener())
         binding.viewPager.adapter = ViewpagerAdapter()
         binding.viewPager.offscreenPageLimit = 3
         binding.viewPager.isUserInputEnabled = false
@@ -219,11 +217,5 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onStopTrackingTouch(p0: SeekBar?) {
 
-    }
-
-    private inner class AudioListener : SingleTypeAdapter.OnItemClickListener<AudioBook> {
-        override fun onListItemClick(item: AudioBook) {
-            Log.d(TAG, "onListItemClick: $item")
-        }
     }
 }

@@ -60,15 +60,15 @@ abstract class SingleTypeAdapter<T>(
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.root.setOnClickListener {
-                _listener?.onListItemClick(data[adapterPosition])
+                _listener?.onListItemClick(data[bindingAdapterPosition])
             }
-            bindData(binding, adapterPosition)
+            bindData(binding, bindingAdapterPosition)
         }
 
         private fun setAnimation() {
             val animation = AnimationUtils.loadAnimation(itemView.context, android.R.anim.slide_in_left)
             itemView.startAnimation(animation)
-            lastPosition = adapterPosition
+            lastPosition = bindingAdapterPosition
         }
 
     }
