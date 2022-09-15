@@ -21,6 +21,7 @@ class AudioBookAdapter @Inject constructor(
             binding.fontSize = fontManager.fontSize
             with(data[position]) {
                 binding.title = title
+                binding.description = "Aбдукарим Мирзаев"
                 binding.progress.visibility =
                     if (status is AudioBook.Status.Downloading) View.VISIBLE else View.GONE
                 when (val status = this.status) {

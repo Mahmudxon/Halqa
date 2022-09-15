@@ -13,4 +13,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Halqa"
-include ':app', ':prdownloader'
+include ':app'

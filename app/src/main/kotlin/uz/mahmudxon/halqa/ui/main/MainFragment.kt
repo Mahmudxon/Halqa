@@ -1,6 +1,7 @@
 package uz.mahmudxon.halqa.ui.main
 
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -12,16 +13,11 @@ import androidx.core.view.setPadding
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.downloader.Error
-import com.downloader.OnDownloadListener
-import com.downloader.OnProgressListener
-import com.downloader.PRDownloader
 import com.google.android.material.navigation.NavigationBarView
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.R
 import uz.mahmudxon.halqa.databinding.FragmentMainBinding
 import uz.mahmudxon.halqa.databinding.FragmentSettingsBinding
-import uz.mahmudxon.halqa.datasource.network.AudioUrl
 import uz.mahmudxon.halqa.domain.model.AudioBook
 import uz.mahmudxon.halqa.domain.model.Chapter
 import uz.mahmudxon.halqa.ui.base.BaseFragment
@@ -31,8 +27,8 @@ import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
 import uz.mahmudxon.halqa.ui.list.ThemeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.Prefs
+import uz.mahmudxon.halqa.util.TAG
 import uz.mahmudxon.halqa.util.dp
-import uz.mahmudxon.halqa.util.logd
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
@@ -66,11 +62,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                     AudioBook(
                         id = x,
                         title = "$x - боб",
-                        status = if (prefs.get(
-                                prefs.audioItemDownloaded + x,
-                                false
-                            )
-                        ) AudioBook.Status.Playing(false) else AudioBook.Status.Online(0L)
+                        status = AudioBook.Status.Playing(false)
                     )
                 )
         }
@@ -231,43 +223,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     private inner class AudioListener : SingleTypeAdapter.OnItemClickListener<AudioBook> {
         override fun onListItemClick(item: AudioBook) {
-            val index = audioBooks.indexOf(item)
-            when (item.status) {
-                is AudioBook.Status.Online -> {
-                    // Start Download
-                    val request = PRDownloader.download(
-                        AudioUrl.generate(item.id),
-                        requireContext().filesDir.absolutePath, "${item.id}.m4a"
-                    )
-                        .build()
-
-                    request.downloadId = item.id
-                    request.onProgressListener = OnProgressListener {
-                        audioBooks[index].status =
-                            AudioBook.Status.Downloading(it.currentBytes, it.totalBytes)
-                        logd("${it.currentBytes}/${it.totalBytes}")
-                        audioBookAdapter.notifyItemChanged(index)
-                    }
-                    request.start(object : OnDownloadListener {
-                        override fun onDownloadComplete() {
-                            prefs.save(prefs.audioItemDownloaded + item.id, true)
-                            audioBooks[index].status = AudioBook.Status.Playing(false)
-                        }
-
-                        override fun onError(error: Error?) {
-                            prefs.save(prefs.audioItemDownloaded + item.id, false)
-                        }
-                    })
-                }
-                is AudioBook.Status.Downloading -> {
-                    // Cancel Downloading
-                    PRDownloader.pause(item.id)
-                }
-                is AudioBook.Status.Playing -> {
-                    // Play/Pause
-                }
-            }
-            audioBookAdapter.notifyItemChanged(index)
+            Log.d(TAG, "onListItemClick: $item")
         }
     }
 }
