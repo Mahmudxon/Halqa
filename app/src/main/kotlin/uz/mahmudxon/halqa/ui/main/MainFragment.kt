@@ -1,7 +1,6 @@
 package uz.mahmudxon.halqa.ui.main
 
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +17,7 @@ import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.R
 import uz.mahmudxon.halqa.databinding.FragmentMainBinding
 import uz.mahmudxon.halqa.databinding.FragmentSettingsBinding
+import uz.mahmudxon.halqa.datasource.network.DownloadManger
 import uz.mahmudxon.halqa.domain.model.AudioBook
 import uz.mahmudxon.halqa.domain.model.Chapter
 import uz.mahmudxon.halqa.ui.base.BaseFragment
@@ -27,7 +27,6 @@ import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
 import uz.mahmudxon.halqa.ui.list.ThemeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.Prefs
-import uz.mahmudxon.halqa.util.TAG
 import uz.mahmudxon.halqa.util.dp
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
@@ -35,7 +34,8 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
-    View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener {
+    View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
+    DownloadManger.OnDownloadListener {
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -73,11 +73,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         settingBinding = FragmentSettingsBinding.inflate(layoutInflater)
         settingBinding.onClick = this
         chaptersAdapter.setItemClickListener(this)
+        DownloadManger.setListener(this)
         binding.viewPager.adapter = ViewpagerAdapter()
+        audioBookAdapter.listener = {
+            DownloadManger.download(id)
+        }
         binding.viewPager.offscreenPageLimit = 3
         binding.viewPager.isUserInputEnabled = false
         settingBinding.fontSizeSeekbar.setOnSeekBarChangeListener(this)
-        settingBinding.fontSizeSeekbar.setProgress(fontManager.fontSize - 12, false)
+        settingBinding.fontSizeSeekbar.progress = fontManager.fontSize - 12
         settingBinding.autoThemeChange.isChecked = themeManager.autoDarkMode
         settingBinding.autoThemeChange.setOnCheckedChangeListener(this)
         binding.bottomNavigation.setOnItemSelectedListener(this)
@@ -216,6 +220,20 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     }
 
     override fun onStopTrackingTouch(p0: SeekBar?) {
+
+    }
+
+    override fun onProcess(id: Int, current: Long, total: Long) {
+        val index = id - 1
+        audioBooks[index].status = AudioBook.Status.Downloading(current, total)
+        audioBookAdapter.notifyItemChanged(index)
+    }
+
+    override fun onDownloadComplete(id: Int) {
+
+    }
+
+    override fun onDownloadCancelled(id: Int) {
 
     }
 }

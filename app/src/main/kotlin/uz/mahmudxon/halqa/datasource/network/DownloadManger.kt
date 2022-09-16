@@ -1,5 +1,6 @@
 package uz.mahmudxon.halqa.datasource.network
 
+import android.util.Log
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -8,6 +9,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import uz.mahmudxon.halqa.util.TAG
 import java.io.File
 import java.io.FileOutputStream
 
@@ -31,7 +33,8 @@ object DownloadManger {
             result.body()?.let {
                 try {
                     val file = File(AudioUrl.offLineUrl(id))
-                    file.delete()
+                    if (file.exists())
+                        file.delete()
                     val fileReader = ByteArray(4096)
                     val fileSize = it.contentLength()
                     var fileSizeDownloaded: Long = 0
@@ -53,7 +56,8 @@ object DownloadManger {
                         _listener?.onDownloadComplete(id)
                     }
                 } catch (e: Exception) {
-                    println(e.toString())
+                    Log.d(TAG, "download: ${e.message}")
+                    _listener?.onDownloadCancelled(id)
                 }
             }
         }
@@ -62,10 +66,12 @@ object DownloadManger {
 
     fun cancel(id: Int) {
         jobs[id]?.cancel()
+        _listener?.onDownloadCancelled(id)
     }
 
     interface OnDownloadListener {
         fun onProcess(id: Int, current: Long, total: Long)
         fun onDownloadComplete(id: Int)
+        fun onDownloadCancelled(id: Int)
     }
 }

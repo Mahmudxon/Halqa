@@ -13,12 +13,15 @@ import javax.inject.Inject
 class AudioBookAdapter @Inject constructor(
     private val themeManager: ThemeManager,
     private val fontManager: FontManager
-) :
-    SingleTypeAdapter<AudioBook>(R.layout.item_audio) {
+) : SingleTypeAdapter<AudioBook>(R.layout.item_audio) {
+
+    var listener: ((Int) -> Unit)? = null
+
     override fun bindData(binding: ViewDataBinding, position: Int) {
         if (binding is ItemAudioBinding) {
             binding.theme = themeManager.currentTheme
             binding.fontSize = fontManager.fontSize
+            binding.icon.setOnClickListener { listener?.invoke(position) }
             with(data[position]) {
                 binding.title = title
                 binding.description = "Aбдукарим Мирзаев"

@@ -1,6 +1,7 @@
 package uz.mahmudxon.halqa.datasource.network
 
 import android.app.Application
+import java.io.File
 
 object AudioUrl {
 
@@ -15,5 +16,8 @@ object AudioUrl {
 
     fun init(app: Application) {
         _filesDir = app.filesDir.absolutePath + "/files/"
+        val dir = File(_filesDir)
+        if (!dir.exists())
+            dir.mkdirs()
     }
 }
