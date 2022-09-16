@@ -29,7 +29,9 @@ object DownloadManger {
 
     fun download(id: Int) {
         val job = CoroutineScope(IO).launch {
-            val result = service.downloadFile(fileUrl = "${AudioUrl.generate(id)}")
+            val url = "${AudioUrl.generate(id)}"
+            Log.d(TAG, "download: url=$url, id=$id")
+            val result = service.downloadFile(fileUrl = url)
             result.body()?.let {
                 try {
                     val file = File(AudioUrl.offLineUrl(id))
@@ -56,8 +58,10 @@ object DownloadManger {
                         _listener?.onDownloadComplete(id)
                     }
                 } catch (e: Exception) {
-                    Log.d(TAG, "download: ${e.message}")
-                    _listener?.onDownloadCancelled(id)
+                    Log.d(TAG, "download: $e")
+                    withContext(Main) {
+                        _listener?.onDownloadCancelled(id)
+                    }
                 }
             }
         }

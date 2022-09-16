@@ -61,7 +61,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                     AudioBook(
                         id = x,
                         title = "$x - боб",
-                        status = AudioBook.Status.Playing(false)
+                        status = if (prefs.get(
+                                prefs.audioItemDownloaded + x,
+                                false
+                            )
+                        ) AudioBook.Status.Playing(false)
+                        else AudioBook.Status.Online(0L)
                     )
                 )
         }
@@ -75,9 +80,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         chaptersAdapter.setItemClickListener(this)
         DownloadManger.setListener(this)
         binding.viewPager.adapter = ViewpagerAdapter()
-        audioBookAdapter.listener = {
-            DownloadManger.download(id)
-        }
+        audioBookAdapter.listener = { onAudioClick(it) }
         binding.viewPager.offscreenPageLimit = 3
         binding.viewPager.isUserInputEnabled = false
         settingBinding.fontSizeSeekbar.setOnSeekBarChangeListener(this)
@@ -223,6 +226,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     }
 
+
+    private fun onAudioClick(id: Int) {
+        when (audioBooks[id -1].status) {
+            is AudioBook.Status.Online -> DownloadManger.download(id)
+            is AudioBook.Status.Downloading -> DownloadManger.cancel(id)
+            else -> {
+                // play or pause
+            }
+        }
+    }
+
     override fun onProcess(id: Int, current: Long, total: Long) {
         val index = id - 1
         audioBooks[index].status = AudioBook.Status.Downloading(current, total)
@@ -230,10 +244,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     }
 
     override fun onDownloadComplete(id: Int) {
-
+        val index = id - 1
+        audioBooks[index].status = AudioBook.Status.Playing()
+        audioBookAdapter.notifyItemChanged(index)
+        prefs.save(prefs.audioItemDownloaded + id, true)
     }
 
     override fun onDownloadCancelled(id: Int) {
-
+        val index = id - 1
+        audioBooks[index].status = AudioBook.Status.Online(0L)
+        audioBookAdapter.notifyItemChanged(index)
     }
 }

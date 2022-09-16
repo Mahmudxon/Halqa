@@ -53,10 +53,11 @@
 
                 <com.google.android.material.progressindicator.CircularProgressIndicator
                     android:id="@+id/progress"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="38dp"
+                    android:layout_height="38dp"
                     android:layout_gravity="center"
-                    android:indeterminate="true"
+                    android:indeterminate="false"
+                    android:max="100"
                     app:indicatorColor="@color/white" />
 
                 <ImageView

@@ -8,6 +8,7 @@ import uz.mahmudxon.halqa.domain.model.AudioBook
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.theme.ThemeManager
+import uz.mahmudxon.halqa.util.toStringAsFileSize
 import javax.inject.Inject
 
 class AudioBookAdapter @Inject constructor(
@@ -21,19 +22,25 @@ class AudioBookAdapter @Inject constructor(
         if (binding is ItemAudioBinding) {
             binding.theme = themeManager.currentTheme
             binding.fontSize = fontManager.fontSize
-            binding.icon.setOnClickListener { listener?.invoke(position) }
+            binding.icon.setOnClickListener { listener?.invoke(data[position].id) }
             with(data[position]) {
                 binding.title = title
-                binding.description = "Aбдукарим Мирзаев"
                 binding.progress.visibility =
                     if (status is AudioBook.Status.Downloading) View.VISIBLE else View.GONE
                 when (val status = this.status) {
-                    is AudioBook.Status.Online -> binding.icon.setImageResource(R.drawable.ic_download)
+                    is AudioBook.Status.Online -> {
+                        binding.icon.setImageResource(R.drawable.ic_download)
+                        binding.description = "Aбдукарим Мирзаев"
+                    }
                     is AudioBook.Status.Downloading -> {
                         binding.icon.setImageResource(R.drawable.ic_cancel)
+                        binding.description =
+                            status.current.toStringAsFileSize() + " / " + status.total.toStringAsFileSize()
+                        binding.progress.progress = ((status.current * 100) / status.total).toInt()
                     }
                     is AudioBook.Status.Playing -> {
                         binding.icon.setImageResource(if (status.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
+                        binding.description = "Aбдукарим Мирзаев"
                     }
                 }
             }
