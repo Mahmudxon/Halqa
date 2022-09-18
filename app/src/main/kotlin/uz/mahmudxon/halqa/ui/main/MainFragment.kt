@@ -1,5 +1,6 @@
 package uz.mahmudxon.halqa.ui.main
 
+import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.MenuItem
 import android.view.View
@@ -196,6 +197,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             buttonView?.let { changeTheme(it) }
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private fun changeTheme(view: View) {
         if (themeChanger?.canChangeTheme() != true)
             return
@@ -212,6 +214,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         themeChanger?.startCircularAnimation(x, y, !themeManager.currentTheme.isDark)
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onProgressChanged(p0: SeekBar?, p1: Int, p2: Boolean) {
         fontManager.fontSize = p1 + 12
         settingBinding.fontSize = fontManager.fontSize
@@ -228,9 +231,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
 
     private fun onAudioClick(id: Int) {
-        when (audioBooks[id -1].status) {
-            is AudioBook.Status.Online -> DownloadManger.download(id)
-            is AudioBook.Status.Downloading -> DownloadManger.cancel(id)
+        val index = id - 1
+        when (audioBooks[index].status) {
+            is AudioBook.Status.Online -> {
+                audioBooks[index].status = AudioBook.Status.Downloading(0, 1)
+                audioBookAdapter.notifyItemChanged(index)
+                DownloadManger.download(id)
+            }
+            is AudioBook.Status.Downloading -> {
+                DownloadManger.cancel(id)
+            }
             else -> {
                 // play or pause
             }
@@ -240,7 +250,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     override fun onProcess(id: Int, current: Long, total: Long) {
         val index = id - 1
         audioBooks[index].status = AudioBook.Status.Downloading(current, total)
-        audioBookAdapter.notifyItemChanged(index)
+        audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Downloading(current, total))
     }
 
     override fun onDownloadComplete(id: Int) {

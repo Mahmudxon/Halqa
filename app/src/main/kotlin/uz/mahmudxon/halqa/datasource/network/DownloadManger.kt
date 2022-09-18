@@ -29,11 +29,11 @@ object DownloadManger {
 
     fun download(id: Int) {
         val job = CoroutineScope(IO).launch {
-            val url = "${AudioUrl.generate(id)}"
-            Log.d(TAG, "download: url=$url, id=$id")
-            val result = service.downloadFile(fileUrl = url)
-            result.body()?.let {
-                try {
+            try {
+                val url = "${AudioUrl.generate(id)}"
+                Log.d(TAG, "download: url=$url, id=$id")
+                val result = service.downloadFile(fileUrl = url)
+                result.body()?.let {
                     val file = File(AudioUrl.offLineUrl(id))
                     if (file.exists())
                         file.delete()
@@ -57,11 +57,11 @@ object DownloadManger {
                     withContext(Main) {
                         _listener?.onDownloadComplete(id)
                     }
-                } catch (e: Exception) {
-                    Log.d(TAG, "download: $e")
-                    withContext(Main) {
-                        _listener?.onDownloadCancelled(id)
-                    }
+                }
+            } catch (e: Exception) {
+                Log.d(TAG, "download: $e")
+                withContext(Main) {
+                    _listener?.onDownloadCancelled(id)
                 }
             }
         }

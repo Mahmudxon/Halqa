@@ -57,7 +57,7 @@
                     android:layout_height="38dp"
                     android:layout_gravity="center"
                     android:indeterminate="false"
-                    android:max="100"
+                    android:max="102"
                     app:indicatorColor="@color/white" />
 
                 <ImageView

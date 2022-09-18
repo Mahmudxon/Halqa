@@ -1,6 +1,7 @@
 package uz.mahmudxon.halqa.ui.list
 
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.databinding.ViewDataBinding
 import uz.mahmudxon.halqa.R
 import uz.mahmudxon.halqa.databinding.ItemAudioBinding
@@ -33,14 +34,52 @@ class AudioBookAdapter @Inject constructor(
                         binding.description = "Aбдукарим Мирзаев"
                     }
                     is AudioBook.Status.Downloading -> {
+                        binding.progress.animation = AnimationUtils.loadAnimation(binding.progress.context, R.anim.rotate)
+                        binding.progress.animate()
                         binding.icon.setImageResource(R.drawable.ic_cancel)
                         binding.description =
                             status.current.toStringAsFileSize() + " / " + status.total.toStringAsFileSize()
-                        binding.progress.progress = ((status.current * 100) / status.total).toInt()
+                        binding.progress.progress = ((status.current * 100) / status.total).toInt() + 2
                     }
                     is AudioBook.Status.Playing -> {
                         binding.icon.setImageResource(if (status.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
                         binding.description = "Aбдукарим Мирзаев"
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onBindViewHolder(
+        holder: SingleTypeAdapter<AudioBook>.ViewHolder,
+        position: Int,
+        payloads: MutableList<Any>
+    ) {
+        if (payloads.isEmpty()) {
+            super.onBindViewHolder(holder, position, payloads)
+        } else {
+            val status = payloads[0]
+            val binding = holder.binding
+            if (binding is ItemAudioBinding) {
+                binding.icon.setOnClickListener { listener?.invoke(data[position].id) }
+                binding.progress.visibility =
+                    if (status is AudioBook.Status.Downloading) View.VISIBLE else View.GONE
+                with(data[position]) {
+                    when (status) {
+                        is AudioBook.Status.Online -> {
+                            binding.icon.setImageResource(R.drawable.ic_download)
+                            binding.description = "Aбдукарим Мирзаев"
+                        }
+                        is AudioBook.Status.Downloading -> {
+                            binding.icon.setImageResource(R.drawable.ic_cancel)
+                            binding.description =
+                                status.current.toStringAsFileSize() + " / " + status.total.toStringAsFileSize()
+                            binding.progress.progress = ((status.current * 100) / status.total).toInt() + 10
+                        }
+                        is AudioBook.Status.Playing -> {
+                            binding.icon.setImageResource(if (status.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
+                            binding.description = "Aбдукарим Мирзаев"
+                        }
                     }
                 }
             }

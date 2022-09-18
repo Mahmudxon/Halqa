@@ -56,7 +56,7 @@ abstract class SingleTypeAdapter<T>(
     abstract fun bindData(binding: ViewDataBinding, position: Int)
 
 
-    inner class ViewHolder(private val binding: ViewDataBinding) :
+    inner class ViewHolder(val binding: ViewDataBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind() {
             binding.root.setOnClickListener {
