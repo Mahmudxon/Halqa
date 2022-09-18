@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <data>
 
@@ -36,6 +37,7 @@
                 android:layout_width="?actionBarSize"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
+                android:contentDescription="@null"
                 android:padding="16dp"
                 android:src="@drawable/ic_back" />
 
@@ -58,26 +60,58 @@
 
 
             <ImageView
+                android:id="@+id/play"
                 iconColor="@{theme.primaryTextColor}"
                 android:layout_width="?actionBarSize"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:padding="16dp"
                 android:src="@drawable/ic_audio"
-                visibility="@{is_playing == false}"
-                />
+                tools:ignore="ContentDescription" />
+
+            <ImageView
+                android:id="@+id/download"
+                iconColor="@{theme.primaryTextColor}"
+                android:layout_width="?actionBarSize"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:padding="16dp"
+                android:src="@drawable/ic_download"
+                tools:ignore="ContentDescription" />
+
+            <FrameLayout
+                android:id="@+id/downloading"
+                android:layout_width="?actionBarSize"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.progressindicator.CircularProgressIndicator
+                    android:id="@+id/download_progress"
+                    progressColor="@{theme.primaryTextColor}"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:indeterminate="false"
+                    android:max="102" />
+
+                <ImageView
+                    android:id="@+id/cancel_download"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_cancel" />
+
+            </FrameLayout>
 
             <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/playing"
+                layerColor="@{theme.primaryTextColor}"
                 android:layout_width="?actionBarSize"
                 android:layout_height="match_parent"
                 android:padding="16dp"
                 android:scaleType="fitXY"
                 app:lottie_autoPlay="true"
                 app:lottie_loop="true"
-                app:lottie_rawRes="@raw/audio_wave"
-                visibility="@{is_playing}"
-                layerColor="@{theme.primaryTextColor}"
-                />
+                app:lottie_rawRes="@raw/audio_wave" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
@@ -85,7 +119,7 @@
         <include
             android:id="@+id/chapter_layout"
             layout="@layout/layout_chapter"
-            visibility="@{!loading}" />
+            app:visibility="@{!loading}" />
 
         <FrameLayout
             visibility="@{loading}"
