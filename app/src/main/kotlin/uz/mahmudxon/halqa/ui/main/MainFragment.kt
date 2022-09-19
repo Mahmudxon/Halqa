@@ -1,5 +1,6 @@
 package uz.mahmudxon.halqa.ui.main
 
+import android.accounts.NetworkErrorException
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.MenuItem
@@ -251,6 +252,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             }
             else -> {
                 // play or pause
+                throw NetworkErrorException()
             }
         }
     }

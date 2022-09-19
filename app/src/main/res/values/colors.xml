@@ -23,6 +23,7 @@
     <color name="n_secondary_text">#A3A3A3</color>
     <color name="white">#FFFFFF</color>
     <color name="n_break_line">#A6545458</color>
+    <color name="red">#F44336</color>
     <!--End theme-->
 
 </resources>
