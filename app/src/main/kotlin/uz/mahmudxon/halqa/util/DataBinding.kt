@@ -18,6 +18,7 @@ import com.airbnb.lottie.LottieProperty
 import com.airbnb.lottie.SimpleColorFilter
 import com.airbnb.lottie.model.KeyPath
 import com.airbnb.lottie.value.LottieValueCallback
+import com.google.android.material.progressindicator.CircularProgressIndicator
 import uz.mahmudxon.halqa.util.theme.Theme
 
 @BindingAdapter("backgroundColor")
@@ -72,6 +73,13 @@ fun setProgressColor(progressBar: ProgressBar, colorId: Int) {
     val color = ContextCompat.getColor(progressBar.context, colorId)
     progressBar.indeterminateDrawable?.colorFilter =
         PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+}
+
+@BindingAdapter("progressColor")
+fun setProgressColor(progressBar: CircularProgressIndicator, colorId: Int) {
+    if (colorId == 0) return
+    val color = ContextCompat.getColor(progressBar.context, colorId)
+    progressBar.setIndicatorColor(color)
 }
 
 @BindingAdapter("radioTheme")
