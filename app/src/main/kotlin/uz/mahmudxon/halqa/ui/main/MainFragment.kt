@@ -55,23 +55,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     @Inject
     lateinit var prefs: Prefs
 
-    private val audioBooks: ArrayList<AudioBook> by lazy {
-        ArrayList<AudioBook>().also {
-            for (x in 1..32)
-                it.add(
-                    AudioBook(
-                        id = x,
-                        title = "$x - боб",
-                        status = if (prefs.get(
-                                prefs.audioItemDownloaded + x,
-                                false
-                            )
-                        ) AudioBook.Status.Playing(false)
-                        else AudioBook.Status.Online(0L)
-                    )
-                )
-        }
-    }
+    private val audioBooks: ArrayList<AudioBook> by lazy { ArrayList() }
 
     lateinit var settingBinding: FragmentSettingsBinding
 
@@ -89,6 +73,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         settingBinding.autoThemeChange.isChecked = themeManager.autoDarkMode
         settingBinding.autoThemeChange.setOnCheckedChangeListener(this)
         binding.bottomNavigation.setOnItemSelectedListener(this)
+        addAudioBooks()
         viewModel.getChaptersList()
         viewModel.chaptersState.observe(this) { state ->
             state.data?.let {
@@ -103,6 +88,24 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             R.id.action_mainFragment_to_storyFragment,
             bundleOf("id" to item.chapterNumber)
         )
+    }
+
+
+    private fun addAudioBooks() {
+        audioBooks.clear()
+        for (x in 1..32)
+            audioBooks.add(
+                AudioBook(
+                    id = x,
+                    title = "$x - боб",
+                    status = if (prefs.get(
+                            prefs.audioItemDownloaded + x,
+                            false
+                        )
+                    ) AudioBook.Status.Playing(false)
+                    else AudioBook.Status.Online(0L)
+                )
+            )
     }
 
     override fun onCreateTheme(theme: Theme) {

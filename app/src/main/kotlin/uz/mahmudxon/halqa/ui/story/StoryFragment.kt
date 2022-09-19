@@ -69,6 +69,10 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override fun onProcess(id: Int, current: Long, total: Long) {
         if (chapterId == id) {
+            if (audioStatus !is AudioBook.Status.Downloading) {
+                audioStatus = AudioBook.Status.Downloading(current, total)
+                setIconsVisible()
+            }
             binding.downloadProgress.progress = ((current * 100) / total).toInt() + 2
         }
     }
