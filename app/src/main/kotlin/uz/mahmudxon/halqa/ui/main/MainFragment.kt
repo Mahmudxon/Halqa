@@ -36,7 +36,7 @@ import javax.inject.Inject
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
     View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
-    DownloadManger.OnDownloadListener {
+    DownloadManger.OnDownloadListener, DownloadManger.AudioSizeListener {
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -64,6 +64,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         settingBinding.onClick = this
         chaptersAdapter.setItemClickListener(this)
         DownloadManger.setListener(this)
+        DownloadManger.setSizeListener(this)
         binding.viewPager.adapter = ViewpagerAdapter()
         audioBookAdapter.listener = { onAudioClick(it) }
         binding.viewPager.offscreenPageLimit = 3
@@ -78,7 +79,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         viewModel.chaptersState.observe(this) { state ->
             state.data?.let {
                 chaptersAdapter.swapData(it)
-                audioBookAdapter.swapData(audioBooks)
             }
         }
     }
@@ -92,6 +92,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
 
     private fun addAudioBooks() {
+        if (!prefs.get(prefs.iKnowAudioSizes, false)) {
+            // Download Audio Sizes
+            DownloadManger.requestSizes()
+        }
         audioBooks.clear()
         for (x in 1..32)
             audioBooks.add(
@@ -103,9 +107,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                             false
                         )
                     ) AudioBook.Status.Playing(false)
-                    else AudioBook.Status.Online(0L)
+                    else AudioBook.Status.Online(getAudioSize(x))
                 )
             )
+        audioBookAdapter.swapData(audioBooks)
     }
 
     override fun onCreateTheme(theme: Theme) {
@@ -252,8 +257,11 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onProcess(id: Int, current: Long, total: Long) {
         val index = id - 1
+
         audioBooks[index].status = AudioBook.Status.Downloading(current, total)
-        audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Downloading(current, total))
+        if (audioBooks[index].status is AudioBook.Status.Downloading)
+            audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Downloading(current, total))
+        else audioBookAdapter.notifyItemChanged(index)
     }
 
     override fun onDownloadComplete(id: Int) {
@@ -265,7 +273,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onDownloadCancelled(id: Int) {
         val index = id - 1
-        audioBooks[index].status = AudioBook.Status.Online(0L)
+        audioBooks[index].status = AudioBook.Status.Online(getAudioSize(id))
         audioBookAdapter.notifyItemChanged(index)
     }
+
+    override fun onSizesRevive(sizes: Map<String, Long>) {
+        for ((key, value) in sizes) {
+            prefs.save(prefs.downloadSize + key, value)
+        }
+        prefs.save(prefs.iKnowAudioSizes, true)
+        addAudioBooks()
+    }
+
+    private fun getAudioSize(id: Int): Long = prefs.get(prefs.downloadSize + id, 0L)
+
 }

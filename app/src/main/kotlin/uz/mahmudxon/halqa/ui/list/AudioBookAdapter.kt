@@ -31,7 +31,10 @@ class AudioBookAdapter @Inject constructor(
                 when (val status = this.status) {
                     is AudioBook.Status.Online -> {
                         binding.icon.setImageResource(R.drawable.ic_download)
-                        binding.description = "Aбдукарим Мирзаев"
+                        if (status.size == 0L)
+                            binding.description = "Aбдукарим Мирзаев"
+                        else binding.description =
+                            status.size.toStringAsFileSize() + " | " + status.format
                     }
                     is AudioBook.Status.Downloading -> {
                         binding.progress.animation =
@@ -69,7 +72,10 @@ class AudioBookAdapter @Inject constructor(
                 when (status) {
                     is AudioBook.Status.Online -> {
                         binding.icon.setImageResource(R.drawable.ic_download)
-                        binding.description = "Aбдукарим Мирзаев"
+                        if (status.size == 0L)
+                            binding.description = "Aбдукарим Мирзаев"
+                        else binding.description =
+                            status.size.toStringAsFileSize() + " | " + status.format
                     }
                     is AudioBook.Status.Downloading -> {
                         binding.icon.setImageResource(R.drawable.ic_cancel)

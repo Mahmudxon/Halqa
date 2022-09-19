@@ -10,4 +10,7 @@ interface DownloadService {
     @Streaming
     @GET
     suspend fun downloadFile(@Url fileUrl: String): Response<ResponseBody>
+
+    @GET("halqa/")
+    suspend fun getAudiSizes(): Response<Map<String, Long>>
 }

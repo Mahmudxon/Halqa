@@ -10,6 +10,7 @@ import kotlinx.coroutines.withContext
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import uz.mahmudxon.halqa.util.TAG
+import uz.mahmudxon.halqa.util.logd
 import java.io.File
 import java.io.FileOutputStream
 
@@ -20,9 +21,14 @@ object DownloadManger {
     }
 
     private var _listener: OnDownloadListener? = null
+    private var sizeListener: AudioSizeListener? = null
 
     fun setListener(listener: OnDownloadListener) {
         _listener = listener
+    }
+
+    fun setSizeListener(listener: AudioSizeListener) {
+        sizeListener = listener
     }
 
     private val jobs = HashMap<Int, Job>()
@@ -73,9 +79,30 @@ object DownloadManger {
         _listener?.onDownloadCancelled(id)
     }
 
+    fun requestSizes() {
+        CoroutineScope(IO).launch {
+            try {
+                val result = service.getAudiSizes()
+                if (result.isSuccessful) {
+                    result.body()?.let {
+                        withContext(Main) {
+                            sizeListener?.onSizesRevive(it)
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.message?.let { logd(it) }
+            }
+        }
+    }
+
     interface OnDownloadListener {
         fun onProcess(id: Int, current: Long, total: Long)
         fun onDownloadComplete(id: Int)
         fun onDownloadCancelled(id: Int)
+    }
+
+    interface AudioSizeListener {
+        fun onSizesRevive(sizes: Map<String, Long>)
     }
 }
