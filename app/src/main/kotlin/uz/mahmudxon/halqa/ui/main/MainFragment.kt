@@ -1,6 +1,5 @@
 package uz.mahmudxon.halqa.ui.main
 
-import android.accounts.NetworkErrorException
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
 import android.view.MenuItem
@@ -22,6 +21,7 @@ import uz.mahmudxon.halqa.databinding.FragmentSettingsBinding
 import uz.mahmudxon.halqa.datasource.network.DownloadManger
 import uz.mahmudxon.halqa.domain.model.AudioBook
 import uz.mahmudxon.halqa.domain.model.Chapter
+import uz.mahmudxon.halqa.player.Player
 import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.ui.list.AudioBookAdapter
@@ -86,8 +86,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onListItemClick(item: Chapter) {
         navController.navigate(
-            R.id.action_mainFragment_to_storyFragment,
-            bundleOf("id" to item.chapterNumber)
+            R.id.action_mainFragment_to_storyFragment, bundleOf("id" to item.chapterNumber)
         )
     }
 
@@ -98,19 +97,15 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             DownloadManger.requestSizes()
         }
         audioBooks.clear()
-        for (x in 1..32)
-            audioBooks.add(
-                AudioBook(
-                    id = x,
-                    title = "$x - боб",
-                    status = if (prefs.get(
-                            prefs.audioItemDownloaded + x,
-                            false
-                        )
-                    ) AudioBook.Status.Playing(false)
-                    else AudioBook.Status.Online(getAudioSize(x))
-                )
+        for (x in 1..32) audioBooks.add(
+            AudioBook(
+                id = x, title = "$x - боб", status = if (prefs.get(
+                        prefs.audioItemDownloaded + x, false
+                    )
+                ) AudioBook.Status.Playing(isPlaying = Player.getPlayingId() == x)
+                else AudioBook.Status.Online(getAudioSize(x))
             )
+        )
         audioBookAdapter.swapData(audioBooks)
     }
 
@@ -120,8 +115,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         settingBinding.theme = theme
         val iconColorStates = ColorStateList(
             arrayOf(
-                intArrayOf(-android.R.attr.state_checked),
-                intArrayOf(android.R.attr.state_checked)
+                intArrayOf(-android.R.attr.state_checked), intArrayOf(android.R.attr.state_checked)
             ), intArrayOf(
                 ContextCompat.getColor(requireContext(), theme.secondaryTextColor),
                 ContextCompat.getColor(requireContext(), R.color.cl_color_accent)
@@ -170,8 +164,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 }
             }
             view.layoutParams = ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT,
-                ViewGroup.LayoutParams.MATCH_PARENT
+                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT
             )
             return object : RecyclerView.ViewHolder(view) {}
         }
@@ -202,14 +195,16 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onCheckedChanged(buttonView: CompoundButton?, isChecked: Boolean) {
         themeManager.autoDarkMode = isChecked
-        if (isChecked && themeChanger?.isSystemDark() != themeManager.currentTheme.isDark)
-            buttonView?.let { changeTheme(it) }
+        if (isChecked && themeChanger?.isSystemDark() != themeManager.currentTheme.isDark) buttonView?.let {
+            changeTheme(
+                it
+            )
+        }
     }
 
     @SuppressLint("NotifyDataSetChanged")
     private fun changeTheme(view: View) {
-        if (themeChanger?.canChangeTheme() != true)
-            return
+        if (themeChanger?.canChangeTheme() != true) return
         themeChanger?.takeScreenshot()
         themeManager.currentTheme =
             if (themeManager.currentTheme.isDark) themeManager.lastLightTheme else themeManager.lastDarkTheme
@@ -241,7 +236,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     private fun onAudioClick(id: Int) {
         val index = id - 1
-        when (audioBooks[index].status) {
+        when (val status = audioBooks[index].status) {
             is AudioBook.Status.Online -> {
                 audioBooks[index].status = AudioBook.Status.Downloading(0, 1)
                 audioBookAdapter.notifyItemChanged(index)
@@ -250,9 +245,22 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             is AudioBook.Status.Downloading -> {
                 DownloadManger.cancel(id)
             }
-            else -> {
-                // play or pause
-                throw NetworkErrorException()
+            is AudioBook.Status.Playing -> {
+                if (Player.getPlayingId() > 0) {
+                    if (Player.getPlayingId() == id) {
+                        Player.pause()
+                        audioBooks[id - 1].status = AudioBook.Status.Playing()
+                        audioBookAdapter.notifyItemChanged(id - 1, AudioBook.Status.Playing())
+                        return
+                    }
+                    audioBooks[Player.getPlayingId() - 1].status = AudioBook.Status.Playing()
+                    audioBookAdapter.notifyItemChanged(Player.getPlayingId() - 1, AudioBook.Status.Playing())
+                    Player.pause()
+                }
+
+                Player.play(id)
+                audioBooks[id - 1].status = AudioBook.Status.Playing(true)
+                audioBookAdapter.notifyItemChanged(id - 1, AudioBook.Status.Playing(true))
             }
         }
     }
