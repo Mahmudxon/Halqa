@@ -8,7 +8,6 @@ import uz.mahmudxon.halqa.ui.error.ErrorActivity
 import uz.mahmudxon.halqa.util.logd
 import kotlin.system.exitProcess
 
-
 @HiltAndroidApp
 class Halqa : Application() {
     override fun onCreate() {
