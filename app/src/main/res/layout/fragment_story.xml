@@ -31,12 +31,12 @@
             android:layout_height="?actionBarSize">
 
             <androidx.appcompat.widget.LinearLayoutCompat
+                backgroundColor="@{theme.actionBarColor}"
                 android:layout_width="match_parent"
                 android:layout_height="?actionBarSize"
                 android:gravity="center"
                 app:layout_collapseMode="parallax"
-                app:layout_scrollFlags="scroll|enterAlways|snap"
-                backgroundColor="@{theme.actionBarColor}">
+                app:layout_scrollFlags="scroll|enterAlways|snap">
 
 
                 <ImageView
@@ -143,8 +143,7 @@
             layout="@layout/layout_chapter"
             android:descendantFocusability="beforeDescendants"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:visibility="@{!loading}"
-            />
+            app:visibility="@{!loading}" />
 
         <FrameLayout
             visibility="@{loading}"
