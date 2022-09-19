@@ -19,10 +19,9 @@
     </data>
 
     <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
         backgroundColor="@{theme.backgroundColor}"
-        >
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:layout_width="match_parent"
@@ -33,40 +32,37 @@
 
             <TextView
                 textColor="@{theme.primaryTextColor}"
+                textSize="@{(fontSize + 2)}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{chapter.title}"
-                tools:text="@string/test_title"
-                textSize="@{(fontSize + 2)}"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:text="@{chapter.title}"
                 android:textAlignment="center"
-                />
+                tools:text="@string/test_title" />
 
 
             <TextView
                 textColor="@{theme.secondaryTextColor}"
+                textSize="@{fontSize}"
+                visibility="@{chapter.description.length() > 0}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@{chapter.description}"
-                textSize="@{fontSize}"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
+                android:text="@{chapter.description}"
                 android:textAlignment="center"
-                visibility="@{chapter.description.length() > 0}"
-                tools:text="@string/test_description"
-                />
+                tools:text="@string/test_description" />
 
             <TextView
                 textColor="@{theme.primaryTextColor}"
-                android:text="@{chapter.story}"
+                textSize="@{fontSize}"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                tools:text="@string/test_story"
                 android:layout_marginStart="16dp"
                 android:layout_marginEnd="16dp"
-                textSize="@{fontSize}"
-                />
+                android:text="@{chapter.story}"
+                tools:text="@string/test_story" />
 
         </androidx.appcompat.widget.LinearLayoutCompat>
     </androidx.core.widget.NestedScrollView>
