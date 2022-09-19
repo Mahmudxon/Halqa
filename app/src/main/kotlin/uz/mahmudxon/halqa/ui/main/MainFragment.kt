@@ -257,11 +257,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onProcess(id: Int, current: Long, total: Long) {
         val index = id - 1
-
-        audioBooks[index].status = AudioBook.Status.Downloading(current, total)
-        if (audioBooks[index].status is AudioBook.Status.Downloading)
+        if (audioBooks[index].status is AudioBook.Status.Downloading) {
+            audioBooks[index].status = AudioBook.Status.Downloading(current, total)
             audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Downloading(current, total))
-        else audioBookAdapter.notifyItemChanged(index)
+        } else {
+            audioBooks[index].status = AudioBook.Status.Downloading(current, total)
+            audioBookAdapter.notifyItemChanged(index)
+        }
     }
 
     override fun onDownloadComplete(id: Int) {
