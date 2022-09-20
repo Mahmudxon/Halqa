@@ -300,6 +300,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         addAudioBooks()
     }
 
-    private fun getAudioSize(id: Int): Long = prefs.get(prefs.downloadSize + id, 0L)
+    private fun getAudioSize(id: Int): Long = prefs.get(key = prefs.downloadSize + id, defValue = 0L)
 
 }
