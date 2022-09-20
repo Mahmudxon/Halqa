@@ -130,14 +130,17 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         return when (item.itemId) {
             R.id.chapter -> {
                 binding.viewPager.currentItem = 0
+                binding.title.text = context?.getText(R.string.app_name)
                 true
             }
             R.id.audio -> {
                 binding.viewPager.currentItem = 1
+                binding.title.text = context?.getText(R.string.audio_book)
                 true
             }
             R.id.settings -> {
                 binding.viewPager.currentItem = 2
+                binding.title.text = context?.getText(R.string.settings)
                 true
             }
             else -> false
