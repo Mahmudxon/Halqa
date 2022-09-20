@@ -21,7 +21,7 @@ import uz.mahmudxon.halqa.databinding.FragmentSettingsBinding
 import uz.mahmudxon.halqa.datasource.network.DownloadManger
 import uz.mahmudxon.halqa.domain.model.AudioBook
 import uz.mahmudxon.halqa.domain.model.Chapter
-import uz.mahmudxon.halqa.player.Player
+import uz.mahmudxon.halqa.player.HalqaPlayer
 import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.ui.list.AudioBookAdapter
@@ -102,7 +102,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 id = x, title = "$x - боб", status = if (prefs.get(
                         prefs.audioItemDownloaded + x, false
                     )
-                ) AudioBook.Status.Playing(isPlaying = Player.getPlayingId() == x)
+                ) AudioBook.Status.Playing(isPlaying = HalqaPlayer.getPlayingId() == x)
                 else AudioBook.Status.Online(getAudioSize(x))
             )
         )
@@ -249,19 +249,19 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 DownloadManger.cancel(id)
             }
             is AudioBook.Status.Playing -> {
-                if (Player.getPlayingId() > 0) {
-                    if (Player.getPlayingId() == id) {
-                        Player.pause()
+                if (HalqaPlayer.getPlayingId() > 0) {
+                    if (HalqaPlayer.getPlayingId() == id) {
+                        HalqaPlayer.pause()
                         audioBooks[id - 1].status = AudioBook.Status.Playing()
                         audioBookAdapter.notifyItemChanged(id - 1, AudioBook.Status.Playing())
                         return
                     }
-                    audioBooks[Player.getPlayingId() - 1].status = AudioBook.Status.Playing()
-                    audioBookAdapter.notifyItemChanged(Player.getPlayingId() - 1, AudioBook.Status.Playing())
-                    Player.pause()
+                    audioBooks[HalqaPlayer.getPlayingId() - 1].status = AudioBook.Status.Playing()
+                    audioBookAdapter.notifyItemChanged(HalqaPlayer.getPlayingId() - 1, AudioBook.Status.Playing())
+                    HalqaPlayer.pause()
                 }
 
-                Player.play(id)
+                HalqaPlayer.playOrResume(id)
                 audioBooks[id - 1].status = AudioBook.Status.Playing(true)
                 audioBookAdapter.notifyItemChanged(id - 1, AudioBook.Status.Playing(true))
             }

@@ -3,9 +3,10 @@ package uz.mahmudxon.halqa.player
 import android.app.Application
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
+import com.google.android.exoplayer2.Player
 import uz.mahmudxon.halqa.datasource.network.AudioUrl
 
-object Player {
+object HalqaPlayer : Player.Listener  {
     private lateinit var player: ExoPlayer
     private var id = -1
 
@@ -13,11 +14,15 @@ object Player {
         player = ExoPlayer.Builder(context).build()
     }
 
-    fun play(id: Int) {
-        this.id = id
-        val mediaItem: MediaItem = MediaItem.fromUri(AudioUrl.offLineUrl(id))
-        player.setMediaItem(mediaItem)
-        player.prepare()
+    fun playOrResume(id: Int) {
+        if(this.id != id)
+        {
+            this.id = id
+            val mediaItem: MediaItem = MediaItem.fromUri(AudioUrl.offLineUrl(id))
+            player.setMediaItem(mediaItem)
+            player.prepare()
+        }
+
         player.play()
     }
 
@@ -29,5 +34,12 @@ object Player {
         return if (player.isPlaying)
             id
         else -1
+    }
+
+    override fun onPlaybackStateChanged(playbackState: Int) {
+        super.onPlaybackStateChanged(playbackState)
+        if (playbackState == ExoPlayer.STATE_ENDED) {
+
+        }
     }
 }

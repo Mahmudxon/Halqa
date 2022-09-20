@@ -8,7 +8,7 @@ import uz.mahmudxon.halqa.R
 import uz.mahmudxon.halqa.databinding.FragmentStoryBinding
 import uz.mahmudxon.halqa.datasource.network.DownloadManger
 import uz.mahmudxon.halqa.domain.model.AudioBook
-import uz.mahmudxon.halqa.player.Player
+import uz.mahmudxon.halqa.player.HalqaPlayer
 import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.Prefs
@@ -35,18 +35,18 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         viewModel.getChapter(chapterId)
         audioStatus =
             if (prefs.get(prefs.audioItemDownloaded + chapterId, false)) AudioBook.Status.Playing(
-                isPlaying = Player.getPlayingId() == chapterId
+                isPlaying = HalqaPlayer.getPlayingId() == chapterId
             )
             else AudioBook.Status.Online(0L)
         setIconsVisible()
         DownloadManger.setListener(this)
         binding.play.setOnClickListener {
-            Player.play(chapterId)
+            HalqaPlayer.playOrResume(chapterId)
             audioStatus = AudioBook.Status.Playing(true)
             setIconsVisible()
         }
         binding.playing.setOnClickListener {
-            Player.pause()
+            HalqaPlayer.pause()
             audioStatus = AudioBook.Status.Playing(false)
             setIconsVisible()
         }
