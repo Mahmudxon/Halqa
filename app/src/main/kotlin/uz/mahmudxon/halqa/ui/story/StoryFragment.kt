@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story),
-    DownloadManger.OnDownloadListener {
+    DownloadManger.OnDownloadListener, HalqaPlayer.PlayerListener {
 
     private val viewModel by viewModels<StoryViewModel>()
 
@@ -33,6 +33,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     override fun onCreate(view: View) {
         chapterId = arguments?.getInt("id") ?: -1
         viewModel.getChapter(chapterId)
+        HalqaPlayer.listener = this
         audioStatus =
             if (prefs.get(prefs.audioItemDownloaded + chapterId, false)) AudioBook.Status.Playing(
                 isPlaying = HalqaPlayer.getPlayingId() == chapterId
@@ -129,6 +130,13 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 binding.playing.visibility =
                     if ((audioStatus as AudioBook.Status.Playing).isPlaying) View.VISIBLE else View.GONE
             }
+        }
+    }
+
+    override fun onTrackEnded(id: Int) {
+        if (chapterId == id) {
+            audioStatus = AudioBook.Status.Playing(false)
+            setIconsVisible()
         }
     }
 }

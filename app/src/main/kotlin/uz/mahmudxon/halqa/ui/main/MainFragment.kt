@@ -37,7 +37,8 @@ import javax.inject.Inject
 class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
     View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
-    DownloadManger.OnDownloadListener, DownloadManger.AudioSizeListener {
+    DownloadManger.OnDownloadListener, DownloadManger.AudioSizeListener,
+    HalqaPlayer.PlayerListener {
 
     private val viewModel by viewModels<MainViewModel>()
 
@@ -66,6 +67,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         chaptersAdapter.setItemClickListener(this)
         DownloadManger.setListener(this)
         DownloadManger.setSizeListener(this)
+        HalqaPlayer.listener = this
         binding.viewPager.adapter = ViewpagerAdapter()
         audioBookAdapter.listener = { onAudioClick(it) }
         binding.viewPager.offscreenPageLimit = 3
@@ -257,7 +259,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                         return
                     }
                     audioBooks[HalqaPlayer.getPlayingId() - 1].status = AudioBook.Status.Playing()
-                    audioBookAdapter.notifyItemChanged(HalqaPlayer.getPlayingId() - 1, AudioBook.Status.Playing())
+                    audioBookAdapter.notifyItemChanged(
+                        HalqaPlayer.getPlayingId() - 1,
+                        AudioBook.Status.Playing()
+                    )
                     HalqaPlayer.pause()
                 }
 
@@ -300,6 +305,12 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         addAudioBooks()
     }
 
-    private fun getAudioSize(id: Int): Long = prefs.get(key = prefs.downloadSize + id, defValue = 0L)
+    private fun getAudioSize(id: Int): Long =
+        prefs.get(key = prefs.downloadSize + id, defValue = 0L)
 
+    override fun onTrackEnded(id: Int) {
+        val index = id - 1
+        audioBooks[index].status = AudioBook.Status.Playing(false)
+        audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Playing(false))
+    }
 }

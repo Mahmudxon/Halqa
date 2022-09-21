@@ -6,17 +6,18 @@ import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import uz.mahmudxon.halqa.datasource.network.AudioUrl
 
-object HalqaPlayer : Player.Listener  {
-    private lateinit var player: ExoPlayer
+object HalqaPlayer : Player.Listener {
+    lateinit var player: ExoPlayer
     private var id = -1
+
+    var listener: PlayerListener? = null
 
     fun init(context: Application) {
         player = ExoPlayer.Builder(context).build()
     }
 
     fun playOrResume(id: Int) {
-        if(this.id != id)
-        {
+        if (this.id != id) {
             this.id = id
             val mediaItem: MediaItem = MediaItem.fromUri(AudioUrl.offLineUrl(id))
             player.setMediaItem(mediaItem)
@@ -39,7 +40,12 @@ object HalqaPlayer : Player.Listener  {
     override fun onPlaybackStateChanged(playbackState: Int) {
         super.onPlaybackStateChanged(playbackState)
         if (playbackState == ExoPlayer.STATE_ENDED) {
-
+            listener?.onTrackEnded(id)
         }
     }
+
+    interface PlayerListener {
+        fun onTrackEnded(id: Int)
+    }
+
 }
