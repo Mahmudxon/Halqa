@@ -57,7 +57,26 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     @Inject
     lateinit var prefs: Prefs
 
-    private val audioBooks: ArrayList<AudioBook> by lazy { ArrayList() }
+    private val audioBooks: ArrayList<AudioBook> by lazy {
+        ArrayList<AudioBook>().also {
+            audioBooks.clear()
+            for (x in 1..32) audioBooks.add(
+                AudioBook(
+                    id = x, title = "$x - боб", status = if (prefs.get(
+                            prefs.audioItemDownloaded + x, false
+                        )
+                    ) {
+                        if (HalqaPlayer.getPlayingId() == x) AudioBook.Status.Playing(
+                            HalqaPlayer.position,
+                            HalqaPlayer.duration
+                        )
+                        else AudioBook.Status.Downloaded
+                    } else AudioBook.Status.Online(getAudioSize(x))
+                )
+            )
+            audioBookAdapter.swapData(audioBooks)
+        }
+    }
 
     lateinit var settingBinding: FragmentSettingsBinding
 
@@ -98,17 +117,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             // Download Audio Sizes
             DownloadManger.requestSizes()
         }
-        audioBooks.clear()
-        for (x in 1..32) audioBooks.add(
-            AudioBook(
-                id = x, title = "$x - боб", status = if (prefs.get(
-                        prefs.audioItemDownloaded + x, false
-                    )
-                ) AudioBook.Status.Playing(isPlaying = HalqaPlayer.getPlayingId() == x)
-                else AudioBook.Status.Online(getAudioSize(x))
-            )
-        )
-        audioBookAdapter.swapData(audioBooks)
+
     }
 
     override fun onCreateTheme(theme: Theme) {
@@ -267,9 +276,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 }
 
                 HalqaPlayer.playOrResume(id)
-                audioBooks[id - 1].status = AudioBook.Status.Playing(true)
-                audioBookAdapter.notifyItemChanged(id - 1, AudioBook.Status.Playing(true))
+                audioBooks[id - 1].status = AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
+                audioBookAdapter.notifyItemChanged(id - 1, AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration))
             }
+            else -> {}
         }
     }
 
@@ -310,7 +320,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onTrackEnded(id: Int) {
         val index = id - 1
-        audioBooks[index].status = AudioBook.Status.Playing(false)
-        audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Playing(false))
+        audioBooks[index].status = AudioBook.Status.Downloaded
+        audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Downloaded)
     }
 }

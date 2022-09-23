@@ -1,7 +1,8 @@
 package uz.mahmudxon.halqa.util
 
 import android.content.res.Resources
-import uz.mahmudxon.halqa.domain.model.AudioBook
+import java.util.concurrent.TimeUnit
+
 
 val Int.dp: Int
     get() =
@@ -25,29 +26,8 @@ fun Long.toStringAsFileSize(): String {
     return "%.2f GB".format(temp)
 }
 
-
-fun getFakeList(): ArrayList<AudioBook> = ArrayList<AudioBook>().also {
-
-    it.add(
-        AudioBook(
-            id = 1,
-            title = "1 - bob",
-            status = AudioBook.Status.Online(125612L)
-        )
-    )
-    it.add(
-        AudioBook(
-            id = 1,
-            title = "2 - bob",
-            status = AudioBook.Status.Downloading(51272L, 372832L)
-        )
-    )
-    it.add(
-        AudioBook(
-            id = 1,
-            title = "3 - bob",
-            status = AudioBook.Status.Playing()
-        )
-    )
-
+fun Long.toStringAsTime(): String {
+    val minutes: Long = TimeUnit.MILLISECONDS.toMinutes(this)
+    val seconds: Long = TimeUnit.MILLISECONDS.toSeconds(this)
+    return "%02d:%02d".format(minutes, seconds)
 }
