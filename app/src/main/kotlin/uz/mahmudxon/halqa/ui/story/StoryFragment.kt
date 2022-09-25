@@ -35,20 +35,21 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         viewModel.getChapter(chapterId)
         HalqaPlayer.listener = this
         audioStatus =
-            if (prefs.get(prefs.audioItemDownloaded + chapterId, false)) AudioBook.Status.Playing(
-                isPlaying = HalqaPlayer.getPlayingId() == chapterId
-            )
-            else AudioBook.Status.Online(0L)
+            if (prefs.get(prefs.audioItemDownloaded + chapterId, false)) {
+                if (HalqaPlayer.getPlayingId() == chapterId)
+                    AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
+                else AudioBook.Status.Downloaded
+            } else AudioBook.Status.Online(0L)
         setIconsVisible()
         DownloadManger.setListener(this)
         binding.play.setOnClickListener {
             HalqaPlayer.playOrResume(chapterId)
-            audioStatus = AudioBook.Status.Playing(true)
+            audioStatus = AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
             setIconsVisible()
         }
         binding.playing.setOnClickListener {
             HalqaPlayer.pause()
-            audioStatus = AudioBook.Status.Playing(false)
+            audioStatus = AudioBook.Status.Downloaded
             setIconsVisible()
         }
         binding.backButton.setOnClickListener { finish() }
@@ -125,18 +126,27 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
             is AudioBook.Status.Playing -> {
                 binding.download.visibility = View.GONE
                 binding.downloading.visibility = View.GONE
-                binding.play.visibility =
-                    if ((audioStatus as AudioBook.Status.Playing).isPlaying) View.GONE else View.VISIBLE
                 binding.playing.visibility =
-                    if ((audioStatus as AudioBook.Status.Playing).isPlaying) View.VISIBLE else View.GONE
+                    View.VISIBLE
+                binding.play.visibility = View.GONE
+            }
+            is AudioBook.Status.Downloaded -> {
+                binding.download.visibility = View.GONE
+                binding.downloading.visibility = View.GONE
+                binding.play.visibility = View.VISIBLE
+                binding.playing.visibility = View.GONE
             }
         }
     }
 
     override fun onTrackEnded(id: Int) {
         if (chapterId == id) {
-            audioStatus = AudioBook.Status.Playing(false)
+            audioStatus = AudioBook.Status.Downloaded
             setIconsVisible()
         }
+    }
+
+    override fun onPlaying(id : Int, position: Long, duration: Long) {
+
     }
 }
