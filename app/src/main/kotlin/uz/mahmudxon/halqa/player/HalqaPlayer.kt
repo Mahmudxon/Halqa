@@ -31,7 +31,7 @@ object HalqaPlayer : Player.Listener {
     val duration: Long
         get() = if (player.duration > 1000) player.duration else 0
 
-    private fun seek(position: Long) {
+    fun seek(position: Long) {
         if (position < player.duration)
             player.seekTo(position)
     }

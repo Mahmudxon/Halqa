@@ -323,6 +323,5 @@ import javax.inject.Inject
         val status = AudioBook.Status.Playing(position, duration)
         audioBooks[index].status = status
         audioBookAdapter.notifyItemChanged(index, status)
-        Log.d(TAG, "onPlaying: $position : $duration")
     }
 }

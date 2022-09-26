@@ -2,10 +2,13 @@ package uz.mahmudxon.halqa.ui.list
 
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.SeekBar
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.databinding.ViewDataBinding
 import uz.mahmudxon.halqa.R
 import uz.mahmudxon.halqa.databinding.ItemAudioBinding
 import uz.mahmudxon.halqa.domain.model.AudioBook
+import uz.mahmudxon.halqa.player.HalqaPlayer
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.theme.ThemeManager
@@ -48,11 +51,13 @@ class AudioBookAdapter @Inject constructor(
                             ((status.current * 100) / status.total).toInt() + 2
                     }
                     is AudioBook.Status.Playing -> {
+                        binding.isPlaying = true
                         binding.icon.setImageResource(R.drawable.ic_pause)
                         binding.description =
                             status.position.toStringAsTime() + " / " + status.duration.toStringAsTime()
                     }
                     is AudioBook.Status.Downloaded -> {
+                        binding.isPlaying = false
                         binding.icon.setImageResource(R.drawable.ic_play)
                         binding.description = "Aбдукарим Мирзаев"
                     }
@@ -76,32 +81,46 @@ class AudioBookAdapter @Inject constructor(
                 binding.progress.visibility =
                     if (status is AudioBook.Status.Downloading) View.VISIBLE else View.GONE
                 when (status) {
-                    is AudioBook.Status.Online -> {
+                    /*is AudioBook.Status.Online -> {
                         binding.icon.setImageResource(R.drawable.ic_download)
                         if (status.size == 0L)
                             binding.description = "Aбдукарим Мирзаев"
                         else binding.description =
                             status.size.toStringAsFileSize() + " | " + status.format
-                    }
+                    }*/
                     is AudioBook.Status.Downloading -> {
-                        binding.icon.setImageResource(R.drawable.ic_cancel)
+                       // binding.icon.setImageResource(R.drawable.ic_cancel)
                         binding.description =
                             status.current.toStringAsFileSize() + " / " + status.total.toStringAsFileSize()
                         binding.progress.progress =
                             ((status.current * 100) / status.total).toInt() + 10
                     }
                     is AudioBook.Status.Playing -> {
-                        binding.icon.setImageResource(R.drawable.ic_pause)
-                        binding.description =
-                            status.position.toStringAsTime() + " / " + status.duration.toStringAsTime()
+                      //  binding.icon.setImageResource(R.drawable.ic_pause)
+                        binding.seekBar.progress = (status.position * 10000 / status.duration).toInt()
+                        binding.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+                            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                                HalqaPlayer.seek(seekBar.progress * status.duration / 10000)
+                            }
+                            override fun onStartTrackingTouch(seekBar: SeekBar) {}
+                            override fun onProgressChanged(
+                                seekBar: SeekBar,
+                                progress: Int,
+                                fromUser: Boolean
+                            ) {
+                                binding.description =
+                                    (seekBar.progress * status.duration / 10000).toStringAsTime() + " / " + status.duration.toStringAsTime()
+                            }
+                        })
                     }
                     is AudioBook.Status.Downloaded -> {
                         binding.icon.setImageResource(R.drawable.ic_play)
                         binding.description = "Aбдукарим Мирзаев"
+                        binding.isPlaying = false
                     }
-
                 }
             }
         }
     }
+
 }

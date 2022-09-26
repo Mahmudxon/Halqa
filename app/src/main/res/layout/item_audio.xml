@@ -93,9 +93,11 @@
                     tools:textSize="16sp" />
 
                 <SeekBar
+                    android:id="@+id/seek_bar"
                     thumbColor="@{theme.primaryTextColor}"
                     thumbTint="@{theme.secondaryTextColor}"
                     visibility="@{isPlaying}"
+                    android:max="10000"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp" />
