@@ -155,3 +155,15 @@ fun changeLayersColor(
 fun setTextSize(view: TextView, textSize: Int) {
     view.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize.toFloat())
 }
+
+@BindingAdapter("thumbTint")
+fun setThumbTint(view: SeekBar, @ColorRes colorRes: Int) {
+    val color = ContextCompat.getColor(view.context, colorRes)
+    view.thumb.setTint(color)
+}
+
+@BindingAdapter("thumbColor")
+fun setThumbColor(view: SeekBar, @ColorRes colorRes: Int) {
+    val color = ContextCompat.getColor(view.context, colorRes)
+    view.thumb.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
+}

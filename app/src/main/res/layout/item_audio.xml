@@ -27,6 +27,10 @@
             name="description"
             type="String" />
 
+        <variable
+            name="isPlaying"
+            type="Boolean" />
+
     </data>
 
     <androidx.cardview.widget.CardView
@@ -66,7 +70,7 @@
                     android:layout_height="match_parent"
                     android:padding="8dp"
                     android:scaleType="fitXY"
-                    android:src="@drawable/ic_pause" />
+                    android:src="@drawable/ic_play" />
 
             </FrameLayout>
 
@@ -87,6 +91,14 @@
                     android:textStyle="bold"
                     tools:text="1-Bob"
                     tools:textSize="16sp" />
+
+                <SeekBar
+                    thumbColor="@{theme.primaryTextColor}"
+                    thumbTint="@{theme.secondaryTextColor}"
+                    visibility="@{isPlaying}"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp" />
 
                 <TextView
                     textColor="@{theme.secondaryTextColor}"

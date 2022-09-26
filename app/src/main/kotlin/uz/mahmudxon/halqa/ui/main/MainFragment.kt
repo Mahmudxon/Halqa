@@ -30,6 +30,7 @@ import uz.mahmudxon.halqa.ui.list.ThemeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.Prefs
 import uz.mahmudxon.halqa.util.dp
+import uz.mahmudxon.halqa.util.logd
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
@@ -59,8 +60,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     private val audioBooks: ArrayList<AudioBook> by lazy {
         ArrayList<AudioBook>().also {
-            audioBooks.clear()
-            for (x in 1..32) audioBooks.add(
+            for (x in 1..32) it.add(
                 AudioBook(
                     id = x, title = "$x - боб", status = if (prefs.get(
                             prefs.audioItemDownloaded + x, false
@@ -74,7 +74,6 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                     } else AudioBook.Status.Online(getAudioSize(x))
                 )
             )
-            audioBookAdapter.swapData(audioBooks)
         }
     }
 
@@ -101,6 +100,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         viewModel.chaptersState.observe(this) { state ->
             state.data?.let {
                 chaptersAdapter.swapData(it)
+                audioBookAdapter.swapData(audioBooks)
             }
         }
     }
@@ -250,6 +250,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     private fun onAudioClick(id: Int) {
         val index = id - 1
+        logd("${audioBooks[index].status}")
         when (val status = audioBooks[index].status) {
             is AudioBook.Status.Online -> {
                 audioBooks[index].status = AudioBook.Status.Downloading(0, 1)

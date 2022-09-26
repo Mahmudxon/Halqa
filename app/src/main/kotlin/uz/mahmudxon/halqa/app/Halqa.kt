@@ -15,7 +15,7 @@ class Halqa : Application() {
         super.onCreate()
         AudioUrl.init(this)
         HalqaPlayer.init(this)
-        Thread.setDefaultUncaughtExceptionHandler { _, _ ->
+        /*Thread.setDefaultUncaughtExceptionHandler { _, _ ->
             try {
                 val flags = Intent.FLAG_ACTIVITY_NEW_TASK
                 val i = Intent(this, ErrorActivity::class.java)
@@ -25,6 +25,6 @@ class Halqa : Application() {
             } catch (e: Exception) {
                 e.message?.let { logd(it) }
             }
-        }
+        }*/
     }
 }

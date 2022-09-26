@@ -47,8 +47,12 @@ class AudioBookAdapter @Inject constructor(
                             ((status.current * 100) / status.total).toInt() + 2
                     }
                     is AudioBook.Status.Playing -> {
-                        binding.icon.setImageResource(if (status.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
+                        binding.icon.setImageResource(R.drawable.ic_pause)
                         binding.description = "Aбдукарим Мирзаев"
+
+                    }
+                    else -> {
+
                     }
                 }
             }
@@ -85,8 +89,9 @@ class AudioBookAdapter @Inject constructor(
                             ((status.current * 100) / status.total).toInt() + 10
                     }
                     is AudioBook.Status.Playing -> {
-                        binding.icon.setImageResource(if (status.isPlaying) R.drawable.ic_pause else R.drawable.ic_play)
+                        binding.icon.setImageResource(R.drawable.ic_pause)
                         binding.description = "Aбдукарим Мирзаев"
+                        binding.isPlaying = true
                     }
                 }
             }
