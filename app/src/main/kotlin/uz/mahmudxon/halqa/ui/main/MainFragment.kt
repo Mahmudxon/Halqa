@@ -269,6 +269,11 @@ import javax.inject.Inject
                 audioBookAdapter.notifyItemChanged(index)
             }
             is AudioBook.Status.Downloaded -> {
+                if(HalqaPlayer.isPlaying())
+                {
+                    audioBooks[HalqaPlayer.getPlayingId() - 1].status = AudioBook.Status.Downloaded
+                    audioBookAdapter.notifyItemChanged(HalqaPlayer.getPlayingId() - 1, AudioBook.Status.Downloaded)
+                }
                 HalqaPlayer.playOrResume(id)
                 audioBooks[id - 1].status =
                     AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
