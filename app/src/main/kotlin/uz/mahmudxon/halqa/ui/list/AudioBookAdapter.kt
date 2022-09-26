@@ -10,6 +10,7 @@ import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.theme.ThemeManager
 import uz.mahmudxon.halqa.util.toStringAsFileSize
+import uz.mahmudxon.halqa.util.toStringAsTime
 import javax.inject.Inject
 
 class AudioBookAdapter @Inject constructor(
@@ -48,11 +49,12 @@ class AudioBookAdapter @Inject constructor(
                     }
                     is AudioBook.Status.Playing -> {
                         binding.icon.setImageResource(R.drawable.ic_pause)
-                        binding.description = "Aбдукарим Мирзаев"
-
+                        binding.description =
+                            status.position.toStringAsTime() + " / " + status.duration.toStringAsTime()
                     }
-                    else -> {
-
+                    is AudioBook.Status.Downloaded -> {
+                        binding.icon.setImageResource(R.drawable.ic_play)
+                        binding.description = "Aбдукарим Мирзаев"
                     }
                 }
             }
@@ -90,9 +92,14 @@ class AudioBookAdapter @Inject constructor(
                     }
                     is AudioBook.Status.Playing -> {
                         binding.icon.setImageResource(R.drawable.ic_pause)
-                        binding.description = "Aбдукарим Мирзаев"
-                        binding.isPlaying = true
+                        binding.description =
+                            status.position.toStringAsTime() + " / " + status.duration.toStringAsTime()
                     }
+                    is AudioBook.Status.Downloaded -> {
+                        binding.icon.setImageResource(R.drawable.ic_play)
+                        binding.description = "Aбдукарим Мирзаев"
+                    }
+
                 }
             }
         }

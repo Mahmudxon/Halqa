@@ -28,6 +28,6 @@ fun Long.toStringAsFileSize(): String {
 
 fun Long.toStringAsTime(): String {
     val minutes: Long = TimeUnit.MILLISECONDS.toMinutes(this)
-    val seconds: Long = TimeUnit.MILLISECONDS.toSeconds(this)
+    val seconds: Long = TimeUnit.MILLISECONDS.toSeconds(this) - minutes * 60
     return "%02d:%02d".format(minutes, seconds)
 }

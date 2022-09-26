@@ -8,11 +8,10 @@ import kotlinx.coroutines.*
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 import uz.mahmudxon.halqa.datasource.network.AudioUrl
-import java.time.Duration
 
 object HalqaPlayer : Player.Listener {
     private lateinit var player: ExoPlayer
-    private var id = -1
+    private var audioBookId = -1
     private var timer: Job? = null
 
     var listener: PlayerListener? = null
@@ -30,7 +29,7 @@ object HalqaPlayer : Player.Listener {
         }
 
     val duration: Long
-        get() = player.duration
+        get() = if (player.duration > 1000) player.duration else 0
 
     private fun seek(position: Long) {
         if (position < player.duration)
@@ -38,13 +37,13 @@ object HalqaPlayer : Player.Listener {
     }
 
     fun playOrResume(id: Int) {
-        if (this.id != id) {
-            this.id = id
+        if (this.audioBookId != id) {
+            this.audioBookId = id
             val mediaItem: MediaItem = MediaItem.fromUri(AudioUrl.offLineUrl(id))
             player.setMediaItem(mediaItem)
             player.prepare()
         }
-
+        listener?.onPlaying(id, position, duration)
         player.play()
         timer = CoroutineScope(IO).launch {
             tick()
@@ -58,30 +57,37 @@ object HalqaPlayer : Player.Listener {
 
     fun getPlayingId(): Int {
         return if (player.isPlaying)
-            id
+            audioBookId
         else -1
     }
 
     override fun onPlaybackStateChanged(playbackState: Int) {
         super.onPlaybackStateChanged(playbackState)
         if (playbackState == ExoPlayer.STATE_ENDED) {
-            listener?.onTrackEnded(id)
+            listener?.onTrackEnded(audioBookId)
             timer?.cancel()
         }
+
     }
 
 
     private suspend fun tick() {
-        withContext(Main) {
-            listener?.onPlaying(player.contentPosition, player.duration)
-        }
         delay(1000)
-        if (player.isPlaying)
+        var playing: Boolean
+        withContext(Main) {
+            listener?.onPlaying(
+                audioBookId,
+                position,
+                duration
+            )
+            playing = player.isPlaying
+        }
+        if (playing)
             tick()
     }
 
     interface PlayerListener {
         fun onTrackEnded(id: Int)
-        fun onPlaying(position: Long, duration: Long) {}
+        fun onPlaying(id: Int, position: Long, duration: Long)
     }
 }

@@ -35,11 +35,11 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         viewModel.getChapter(chapterId)
         HalqaPlayer.listener = this
         audioStatus =
-            if (prefs.get(prefs.audioItemDownloaded + chapterId, false)) { if( HalqaPlayer.getPlayingId() == chapterId) AudioBook.Status.Playing(
-            HalqaPlayer.position, HalqaPlayer.duration
-            ) else AudioBook.Status.Downloaded
-            }
-            else AudioBook.Status.Online(0L)
+            if (prefs.get(prefs.audioItemDownloaded + chapterId, false)) {
+                if (HalqaPlayer.getPlayingId() == chapterId)
+                    AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
+                else AudioBook.Status.Downloaded
+            } else AudioBook.Status.Online(0L)
         setIconsVisible()
         DownloadManger.setListener(this)
         binding.play.setOnClickListener {
@@ -126,15 +126,16 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
             is AudioBook.Status.Playing -> {
                 binding.download.visibility = View.GONE
                 binding.downloading.visibility = View.GONE
-                binding.playing.visibility =View.VISIBLE
+                binding.playing.visibility =
+                    View.VISIBLE
+                binding.play.visibility = View.GONE
             }
             is AudioBook.Status.Downloaded -> {
                 binding.download.visibility = View.GONE
                 binding.downloading.visibility = View.GONE
-                binding.play.visibility  =View.VISIBLE
+                binding.play.visibility = View.VISIBLE
+                binding.playing.visibility = View.GONE
             }
-
-
         }
     }
 
@@ -143,5 +144,9 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
             audioStatus = AudioBook.Status.Downloaded
             setIconsVisible()
         }
+    }
+
+    override fun onPlaying(id : Int, position: Long, duration: Long) {
+
     }
 }

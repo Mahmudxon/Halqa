@@ -2,6 +2,7 @@ package uz.mahmudxon.halqa.ui.main
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
+import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -29,13 +30,13 @@ import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
 import uz.mahmudxon.halqa.ui.list.ThemeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.Prefs
+import uz.mahmudxon.halqa.util.TAG
 import uz.mahmudxon.halqa.util.dp
 import uz.mahmudxon.halqa.util.logd
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
-@AndroidEntryPoint
-class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
+@AndroidEntryPoint class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
     View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
     DownloadManger.OnDownloadListener, DownloadManger.AudioSizeListener,
@@ -261,26 +262,18 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 DownloadManger.cancel(id)
             }
             is AudioBook.Status.Playing -> {
-                if (HalqaPlayer.getPlayingId() > 0) {
-                    if (HalqaPlayer.getPlayingId() == id) {
-                        HalqaPlayer.pause()
-                        audioBooks[id - 1].status = AudioBook.Status.Playing()
-                        audioBookAdapter.notifyItemChanged(id - 1, AudioBook.Status.Playing())
-                        return
-                    }
-                    audioBooks[HalqaPlayer.getPlayingId() - 1].status = AudioBook.Status.Playing()
-                    audioBookAdapter.notifyItemChanged(
-                        HalqaPlayer.getPlayingId() - 1,
-                        AudioBook.Status.Playing()
-                    )
-                    HalqaPlayer.pause()
-                }
+                HalqaPlayer.pause()
 
-                HalqaPlayer.playOrResume(id)
-                audioBooks[id - 1].status = AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
-                audioBookAdapter.notifyItemChanged(id - 1, AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration))
+                audioBooks[id - 1].status =
+                    AudioBook.Status.Downloaded
+                audioBookAdapter.notifyItemChanged(index)
             }
-            else -> {}
+            is AudioBook.Status.Downloaded -> {
+                HalqaPlayer.playOrResume(id)
+                audioBooks[id - 1].status =
+                    AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
+                audioBookAdapter.notifyItemChanged(index)
+            }
         }
     }
 
@@ -297,7 +290,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
 
     override fun onDownloadComplete(id: Int) {
         val index = id - 1
-        audioBooks[index].status = AudioBook.Status.Playing()
+        audioBooks[index].status = AudioBook.Status.Downloaded
         audioBookAdapter.notifyItemChanged(index)
         prefs.save(prefs.audioItemDownloaded + id, true)
     }
@@ -323,5 +316,13 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         val index = id - 1
         audioBooks[index].status = AudioBook.Status.Downloaded
         audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Downloaded)
+    }
+
+    override fun onPlaying(id : Int, position: Long, duration: Long) {
+        val index = id - 1
+        val status = AudioBook.Status.Playing(position, duration)
+        audioBooks[index].status = status
+        audioBookAdapter.notifyItemChanged(index, status)
+        Log.d(TAG, "onPlaying: $position : $duration")
     }
 }
