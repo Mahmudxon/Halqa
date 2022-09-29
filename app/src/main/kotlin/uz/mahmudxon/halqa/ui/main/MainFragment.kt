@@ -2,7 +2,6 @@ package uz.mahmudxon.halqa.ui.main
 
 import android.annotation.SuppressLint
 import android.content.res.ColorStateList
-import android.util.Log
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
@@ -30,13 +29,13 @@ import uz.mahmudxon.halqa.ui.list.ChaptersAdapter
 import uz.mahmudxon.halqa.ui.list.ThemeAdapter
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.Prefs
-import uz.mahmudxon.halqa.util.TAG
 import uz.mahmudxon.halqa.util.dp
 import uz.mahmudxon.halqa.util.logd
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
-@AndroidEntryPoint class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
+@AndroidEntryPoint
+class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     SingleTypeAdapter.OnItemClickListener<Chapter>, NavigationBarView.OnItemSelectedListener,
     View.OnClickListener, CompoundButton.OnCheckedChangeListener, SeekBar.OnSeekBarChangeListener,
     DownloadManger.OnDownloadListener, DownloadManger.AudioSizeListener,
@@ -269,10 +268,12 @@ import javax.inject.Inject
                 audioBookAdapter.notifyItemChanged(index)
             }
             is AudioBook.Status.Downloaded -> {
-                if(HalqaPlayer.isPlaying())
-                {
+                if (HalqaPlayer.isPlaying()) {
                     audioBooks[HalqaPlayer.getPlayingId() - 1].status = AudioBook.Status.Downloaded
-                    audioBookAdapter.notifyItemChanged(HalqaPlayer.getPlayingId() - 1, AudioBook.Status.Downloaded)
+                    audioBookAdapter.notifyItemChanged(
+                        HalqaPlayer.getPlayingId() - 1,
+                        AudioBook.Status.Downloaded
+                    )
                 }
                 HalqaPlayer.playOrResume(id)
                 audioBooks[id - 1].status =
@@ -320,10 +321,10 @@ import javax.inject.Inject
     override fun onTrackEnded(id: Int) {
         val index = id - 1
         audioBooks[index].status = AudioBook.Status.Downloaded
-        audioBookAdapter.notifyItemChanged(index, AudioBook.Status.Downloaded)
+        audioBookAdapter.notifyItemChanged(index)
     }
 
-    override fun onPlaying(id : Int, position: Long, duration: Long) {
+    override fun onPlaying(id: Int, position: Long, duration: Long) {
         val index = id - 1
         val status = AudioBook.Status.Playing(position, duration)
         audioBooks[index].status = status

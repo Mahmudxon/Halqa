@@ -18,6 +18,7 @@ object HalqaPlayer : Player.Listener {
 
     fun init(context: Application) {
         player = ExoPlayer.Builder(context).build()
+        player.addListener(this)
     }
 
     fun isPlaying() = player.isPlaying
@@ -67,7 +68,6 @@ object HalqaPlayer : Player.Listener {
             listener?.onTrackEnded(audioBookId)
             timer?.cancel()
         }
-
     }
 
 
