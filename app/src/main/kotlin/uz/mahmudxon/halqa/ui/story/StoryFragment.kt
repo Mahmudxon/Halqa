@@ -92,7 +92,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override fun onDownloadComplete(id: Int) {
         if (chapterId == id) {
-            audioStatus = AudioBook.Status.Playing()
+            audioStatus = AudioBook.Status.Downloaded
             setIconsVisible()
             prefs.save(prefs.audioItemDownloaded + chapterId, true)
         }
