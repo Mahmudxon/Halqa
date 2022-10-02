@@ -17,7 +17,7 @@ import java.io.FileOutputStream
 object DownloadManger {
     private val service by lazy {
         Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-            .baseUrl("http://mahmudxon.uz/").build().create(DownloadService::class.java)
+            .baseUrl(AudioUrl.baseUrl).build().create(DownloadService::class.java)
     }
 
     private var _listener: OnDownloadListener? = null
