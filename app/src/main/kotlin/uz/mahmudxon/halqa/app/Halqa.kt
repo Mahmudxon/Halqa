@@ -2,6 +2,7 @@ package uz.mahmudxon.halqa.app
 
 import android.app.Application
 import android.content.Intent
+import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.get
@@ -20,6 +21,7 @@ class Halqa : Application() {
         super.onCreate()
         AudioUrl.init(this)
         getRemoteConfig()
+        FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         HalqaPlayer.init(this)
         Thread.setDefaultUncaughtExceptionHandler { _, _ ->
             try {
