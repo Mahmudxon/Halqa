@@ -11,6 +11,7 @@ import uz.mahmudxon.halqa.domain.model.AudioBook
 import uz.mahmudxon.halqa.player.HalqaPlayer
 import uz.mahmudxon.halqa.ui.base.list.SingleTypeAdapter
 import uz.mahmudxon.halqa.util.FontManager
+import uz.mahmudxon.halqa.util.logd
 import uz.mahmudxon.halqa.util.theme.ThemeManager
 import uz.mahmudxon.halqa.util.toStringAsFileSize
 import uz.mahmudxon.halqa.util.toStringAsTime
@@ -74,6 +75,7 @@ class AudioBookAdapter @Inject constructor(
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
+            logd("$position")
             val status = payloads[0]
             val binding = holder.binding
             if (binding is ItemAudioBinding) {
@@ -89,19 +91,22 @@ class AudioBookAdapter @Inject constructor(
                             status.size.toStringAsFileSize() + " | " + status.format
                     }*/
                     is AudioBook.Status.Downloading -> {
-                       // binding.icon.setImageResource(R.drawable.ic_cancel)
+                        // binding.icon.setImageResource(R.drawable.ic_cancel)
                         binding.description =
                             status.current.toStringAsFileSize() + " / " + status.total.toStringAsFileSize()
                         binding.progress.progress =
                             ((status.current * 100) / status.total).toInt() + 10
                     }
                     is AudioBook.Status.Playing -> {
-                      //  binding.icon.setImageResource(R.drawable.ic_pause)
-                        binding.seekBar.progress = (status.position * 10000 / status.duration).toInt()
-                        binding.seekBar.setOnSeekBarChangeListener(object : OnSeekBarChangeListener {
+                        //  binding.icon.setImageResource(R.drawable.ic_pause)
+                        if (status.duration != 0L) binding.seekBar.progress =
+                            (status.position * 10000 / status.duration).toInt()
+                        binding.seekBar.setOnSeekBarChangeListener(object :
+                            OnSeekBarChangeListener {
                             override fun onStopTrackingTouch(seekBar: SeekBar) {
                                 HalqaPlayer.seek(seekBar.progress * status.duration / 10000)
                             }
+
                             override fun onStartTrackingTouch(seekBar: SeekBar) {}
                             override fun onProgressChanged(
                                 seekBar: SeekBar,
@@ -122,5 +127,4 @@ class AudioBookAdapter @Inject constructor(
             }
         }
     }
-
 }
