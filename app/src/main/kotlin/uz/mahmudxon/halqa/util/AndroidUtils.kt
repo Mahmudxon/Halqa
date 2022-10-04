@@ -1,6 +1,8 @@
 package uz.mahmudxon.halqa.util
 
 import android.content.res.Resources
+import uz.mahmudxon.halqa.domain.model.Author
+import uz.mahmudxon.halqa.domain.model.SocialMediaLink
 import java.util.concurrent.TimeUnit
 
 
@@ -30,4 +32,91 @@ fun Long.toStringAsTime(): String {
     val minutes: Long = TimeUnit.MILLISECONDS.toMinutes(this)
     val seconds: Long = TimeUnit.MILLISECONDS.toSeconds(this) - minutes * 60
     return "%02d:%02d".format(minutes, seconds)
+}
+
+
+fun getAuthors(): List<Author> {
+    val result = ArrayList<Author>()
+
+    val akromMalik = Author(
+        id = 1,
+        name = "Aкром Малик",
+        imgUrl = "https://firebasestorage.googleapis.com/v0/b/messanger-6a0b4.appspot.com/o/arkom_malik.webp?alt=media&token=dee24abc-2a85-488c-b083-f5d65e606475",
+        jobTitle = "Ёзувчи",
+        description = "Aкром Малик 1991 йилда Тошкент вилояти Пискент туманида туғилган. Тошкент давлат миллий университети магистри, Aлишер Навоий ижод билимдони, \"Ҳалқа\", \"Жанги\" ва яна бир неча китоблар муаллифи.",
+        socialMediaLinks = listOf(
+            SocialMediaLink(
+                SocialMediaLink.Type.FACEBOOK,
+                "https://www.facebook.com/AkromAbdulHamidMalik"
+            ),
+            SocialMediaLink(
+                SocialMediaLink.Type.INSTAGRAM,
+                "https://www.instagram.com/akrom_malik_rasmiy"
+            ),
+            SocialMediaLink(SocialMediaLink.Type.TELEGRAM, "https://t.me/Akrom_Malik_rasmiy"),
+            SocialMediaLink(SocialMediaLink.Type.TWITTER, "https://twitter.com/malik_akrom")
+        )
+    )
+    result.add(akromMalik)
+
+    val abdukarimMirzayev = Author(
+        id = 2,
+        name = "Aбдукарим Мирзаев",
+        imgUrl = "https://firebasestorage.googleapis.com/v0/b/messanger-6a0b4.appspot.com/o/abdukarim_mirzayev.jpg?alt=media&token=69138690-c6d2-461c-97a8-1daf8d02f3ce",
+        jobTitle = "Журналист, кинорежиссор ва блоггер",
+        description = "Ўзбекистонлик журналист, кинорежиссор ва блоггер. 2010-йилдаги Қирғизистонда бўлиб ўтган воқеаларни ёритиб берган „Дардга даво истаб“ номли филми билан машҳур бўлган. Филмда ҳар икки халқ зиёлилари вакиллари томонидан мавжуд вазиятдан чиқиш йўллари, қонли воқеалар натижасида йўқолган азалий яхши қўшничилик анъаналарини тиклаш йўллари муҳокама қилинади.",
+        socialMediaLinks = listOf(
+            SocialMediaLink(
+                SocialMediaLink.Type.FACEBOOK,
+                "https://www.facebook.com/abdukarimmirzayev2002"
+            ),
+            SocialMediaLink(
+                SocialMediaLink.Type.INSTAGRAM,
+                "https://www.instagram.com/abdukarimmirzayev"
+            ),
+            SocialMediaLink(SocialMediaLink.Type.TELEGRAM, "https://t.me/Abdukarim_Mirzayev_Tv"),
+            SocialMediaLink(
+                SocialMediaLink.Type.YOUTUBE,
+                "https://www.youtube.com/c/AbdukarimMirzayev2002"
+            ),
+            SocialMediaLink(SocialMediaLink.Type.TWITTER, "https://twitter.com/Abdukarim2002")
+        )
+    )
+    result.add(abdukarimMirzayev)
+
+    val mahmudxon = Author(
+        id = 3,
+        name = "Маҳмудхон Умархонов",
+        imgUrl = "https://firebasestorage.googleapis.com/v0/b/messanger-6a0b4.appspot.com/o/mahmudxon.jpg?alt=media&token=0a2f1fd2-e1d4-46a6-a07b-1d1bb375eae6",
+        jobTitle = "Дастурчи",
+        description = "1998 -йилда Наманан вилояти Чуст туманида туғилган. 2021 - йилда Муҳаммад ал-Хоразмий номидаги Тошкент Aхборот Технологиялари Университетини тамомлаган. 2019 йилдан дастурчи бўлиб ишлаб келади.",
+        socialMediaLinks = listOf(
+            SocialMediaLink(
+                SocialMediaLink.Type.FACEBOOK,
+                "http://mahmudxon.uz/social/?social=facebook"
+            ),
+            SocialMediaLink(
+                SocialMediaLink.Type.INSTAGRAM,
+                "http://mahmudxon.uz/social/?social=instagram"
+            ),
+            SocialMediaLink(
+                SocialMediaLink.Type.TELEGRAM,
+                "http://mahmudxon.uz/social/?social=telegram"
+            ),
+            SocialMediaLink(
+                SocialMediaLink.Type.TWITTER,
+                "http://mahmudxon.uz/social/?social=twitter"
+            )
+        )
+    )
+
+    result.add(mahmudxon)
+
+    /*
+    *
+    * Shohjahonni ma'lumotlari
+    *
+    * */
+
+    return result
 }
