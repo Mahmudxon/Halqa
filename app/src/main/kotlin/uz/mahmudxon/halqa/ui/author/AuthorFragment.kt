@@ -21,6 +21,7 @@ class AuthorFragment : BaseFragment<FragmentAuthorBinding>(R.layout.fragment_aut
         binding.list.layoutManager = LinearLayoutManager(context)
         binding.list.adapter = adapter
         adapter.swapData(getAuthors())
+        binding.backButton.setOnClickListener { finish() }
     }
 
     override fun onCreateTheme(theme: Theme) {
