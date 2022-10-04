@@ -1,5 +1,6 @@
 package uz.mahmudxon.halqa.ui.list
 
+import android.util.Log
 import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.SeekBar
@@ -33,6 +34,7 @@ class AudioBookAdapter @Inject constructor(
                 binding.title = title
                 binding.progress.visibility =
                     if (status is AudioBook.Status.Downloading) View.VISIBLE else View.GONE
+                binding.isPlaying = status is AudioBook.Status.Playing
                 when (val status = this.status) {
                     is AudioBook.Status.Online -> {
                         binding.icon.setImageResource(R.drawable.ic_download)
@@ -52,13 +54,11 @@ class AudioBookAdapter @Inject constructor(
                             ((status.current * 100) / status.total).toInt() + 2
                     }
                     is AudioBook.Status.Playing -> {
-                        binding.isPlaying = true
                         binding.icon.setImageResource(R.drawable.ic_pause)
                         binding.description =
                             status.position.toStringAsTime() + " / " + status.duration.toStringAsTime()
                     }
                     is AudioBook.Status.Downloaded -> {
-                        binding.isPlaying = false
                         binding.icon.setImageResource(R.drawable.ic_play)
                         binding.description = "Aбдукарим Мирзаев"
                     }
@@ -75,7 +75,6 @@ class AudioBookAdapter @Inject constructor(
         if (payloads.isEmpty()) {
             super.onBindViewHolder(holder, position, payloads)
         } else {
-            logd("$position")
             val status = payloads[0]
             val binding = holder.binding
             if (binding is ItemAudioBinding) {
