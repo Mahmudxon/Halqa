@@ -15,7 +15,7 @@ class SocialMediaAdapter(data: List<SocialMediaLink>) :
         if (binding is ItemSocialMediaBinding) {
             binding.icon.setImageResource(data[position].icon)
             binding.root.setOnClickListener {
-                val intent = Intent()
+                val intent = Intent(Intent.ACTION_VIEW)
                 intent.data = Uri.parse(data[position].link)
                 it.context.startActivity(intent)
             }
