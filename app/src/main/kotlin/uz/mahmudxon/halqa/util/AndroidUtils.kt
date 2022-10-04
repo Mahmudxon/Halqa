@@ -35,6 +35,12 @@ fun Long.toStringAsTime(): String {
 }
 
 
+fun <T> List<T>.asArrayList(): ArrayList<T> {
+    val result = ArrayList<T>()
+    result.addAll(this)
+    return result
+}
+
 fun getAuthors(): List<Author> {
     val result = ArrayList<Author>()
 

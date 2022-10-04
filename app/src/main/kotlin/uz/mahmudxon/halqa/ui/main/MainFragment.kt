@@ -204,6 +204,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
                 settingBinding.autoThemeChange.isChecked = false
                 changeTheme(settingBinding.themeIcon)
             }
+            R.id.aboutAuthors -> {
+                navController.navigate(R.id.action_mainFragment_to_authorFragment)
+            }
         }
     }
 
