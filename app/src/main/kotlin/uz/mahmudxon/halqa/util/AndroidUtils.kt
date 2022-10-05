@@ -118,11 +118,26 @@ fun getAuthors(): List<Author> {
 
     result.add(mahmudxon)
 
-    /*
-    *
-    * Shohjahonni ma'lumotlari
-    *
-    * */
+
+    val shohjahon = Author(
+        id = 4,
+        name = "Шоҳжаҳон Сирожев",
+        imgUrl = "https://firebasestorage.googleapis.com/v0/b/messanger-6a0b4.appspot.com/o/shohjahon.jpg?alt=media&token=c0907906-5273-4f48-af48-e21ef8e3c325",
+        jobTitle = "Дастурчи",
+        description = "1998 - йилда Навоий вилояти Кармана туманида туғилган. 2021 - йилда Муҳаммад ал-Хоразмий номидаги Тошкент Aхборот Технологиялари Университетини тамомлаган. 2020 йилдан дастурчи бўлиб ишлаб келади.",
+        socialMediaLinks = listOf(
+            SocialMediaLink(
+                SocialMediaLink.Type.TELEGRAM,
+                "https://shohjahon24.github.io/shohjahon24/social/?social=telegram"
+            ),
+            SocialMediaLink(
+                SocialMediaLink.Type.TWITTER,
+                "http://mahmudxon.uz/social/?social=twitter"
+            )
+        )
+    )
+
+    result.add(shohjahon)
 
     return result
 }
