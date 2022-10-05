@@ -27,7 +27,8 @@ class AuthorsAdapter @Inject constructor(
                 binding.listLinks.adapter = SocialMediaAdapter(socialMediaLinks)
                 binding.theme = themeManager.currentTheme
                 binding.fontSize = fontManager.fontSize
-                Glide.with(binding.image).load(imgUrl).into(binding.image)
+                Glide.with(binding.image).load(imgUrl).error(getDefaultImage(id))
+                    .into(binding.image)
             }
         }
     }
