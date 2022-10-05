@@ -131,6 +131,10 @@ fun getAuthors(): List<Author> {
                 "https://shohjahon24.github.io/shohjahon24/social/?social=telegram"
             ),
             SocialMediaLink(
+                SocialMediaLink.Type.GITHUB,
+                "https://github.com/shohjahon24/"
+            ),
+            SocialMediaLink(
                 SocialMediaLink.Type.TWITTER,
                 "http://mahmudxon.uz/social/?social=twitter"
             )
