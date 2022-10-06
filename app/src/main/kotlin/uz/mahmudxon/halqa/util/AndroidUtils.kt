@@ -132,7 +132,7 @@ fun getAuthors(): List<Author> {
             ),
             SocialMediaLink(
                 SocialMediaLink.Type.GITHUB,
-                "http://https://shohjahon24.github.io/shohjahon24/social/?social=github"
+                "https://shohjahon24.github.io/shohjahon24/social/?social=github"
             ),
             SocialMediaLink(
                 SocialMediaLink.Type.TWITTER,
