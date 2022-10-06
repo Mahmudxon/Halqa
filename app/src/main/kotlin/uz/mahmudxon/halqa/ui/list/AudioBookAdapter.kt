@@ -82,13 +82,13 @@ class AudioBookAdapter @Inject constructor(
                 binding.progress.visibility =
                     if (status is AudioBook.Status.Downloading) View.VISIBLE else View.GONE
                 when (status) {
-                    /*is AudioBook.Status.Online -> {
+                    is AudioBook.Status.Online -> {
                         binding.icon.setImageResource(R.drawable.ic_download)
                         if (status.size == 0L)
                             binding.description = "Aбдукарим Мирзаев"
                         else binding.description =
                             status.size.toStringAsFileSize() + " | " + status.format
-                    }*/
+                    }
                     is AudioBook.Status.Downloading -> {
                         // binding.icon.setImageResource(R.drawable.ic_cancel)
                         binding.description =

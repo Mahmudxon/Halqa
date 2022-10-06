@@ -2,9 +2,12 @@ package uz.mahmudxon.halqa.ui.story
 
 import android.view.View
 import android.view.animation.AnimationUtils
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.R
+import uz.mahmudxon.halqa.databinding.DialogAudioBinding
 import uz.mahmudxon.halqa.databinding.FragmentStoryBinding
 import uz.mahmudxon.halqa.datasource.network.DownloadManger
 import uz.mahmudxon.halqa.domain.model.AudioBook
@@ -28,7 +31,10 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     lateinit var prefs: Prefs
 
     var chapterId: Int = 0
+
     lateinit var audioStatus: AudioBook.Status
+
+    private var dialog: BottomSheetDialog? = null
 
     override fun onCreate(view: View) {
         chapterId = arguments?.getInt("id") ?: -1
@@ -146,7 +152,6 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         }
     }
 
-    override fun onPlaying(id : Int, position: Long, duration: Long) {
-
+    override fun onPlaying(id: Int, position: Long, duration: Long) {
     }
 }
