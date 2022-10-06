@@ -70,7 +70,7 @@ fun getAuthors(): List<Author> {
         name = "Aбдукарим Мирзаев",
         imgUrl = "https://firebasestorage.googleapis.com/v0/b/messanger-6a0b4.appspot.com/o/abdukarim_mirzayev.jpg?alt=media&token=69138690-c6d2-461c-97a8-1daf8d02f3ce",
         jobTitle = "Журналист, кинорежиссор ва блоггер",
-        description = "Ўзбекистонлик журналист, кинорежиссор ва блоггер. 2010-йилдаги Қирғизистонда бўлиб ўтган воқеаларни ёритиб берган „Дардга даво истаб“ номли филми билан машҳур бўлган. Филмда ҳар икки халқ зиёлилари вакиллари томонидан мавжуд вазиятдан чиқиш йўллари, қонли воқеалар натижасида йўқолган азалий яхши қўшничилик анъаналарини тиклаш йўллари муҳокама қилинади.",
+        description = "Абдукарим Мирзаев. 1982 йил 20 февралда Ўзбекистоннинг Сурхондарё вилояти Денов туманида туғилган. K.Behzod номидаги МРДИ ҳамда Кастамону Университетида санъатшунослик ва журналистикадан таълим олган. Журналистика 15 йилдан ортиқ МТКД да фаолият юритган.",
         socialMediaLinks = listOf(
             SocialMediaLink(
                 SocialMediaLink.Type.FACEBOOK,
@@ -132,11 +132,15 @@ fun getAuthors(): List<Author> {
             ),
             SocialMediaLink(
                 SocialMediaLink.Type.GITHUB,
-                "https://github.com/shohjahon24/"
+                "http://https://shohjahon24.github.io/shohjahon24/social/?social=github"
             ),
             SocialMediaLink(
                 SocialMediaLink.Type.TWITTER,
-                "http://mahmudxon.uz/social/?social=twitter"
+                "https://shohjahon24.github.io/shohjahon24/social/?social=twitter"
+            ),
+            SocialMediaLink(
+                SocialMediaLink.Type.LINKED_IN,
+                "https://shohjahon24.github.io/shohjahon24/social/?social=linkedIn"
             )
         )
     )
