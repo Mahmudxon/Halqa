@@ -24,6 +24,9 @@
             app:exitAnim="@anim/wait_anim"
             app:popEnterAnim="@anim/wait_anim"
             app:popExitAnim="@anim/slide_right" />
+        <action
+            android:id="@+id/action_mainFragment_to_aboutFragment"
+            app:destination="@id/aboutFragment" />
     </fragment>
     <fragment
         android:id="@+id/storyFragment"
@@ -35,5 +38,11 @@
         android:name="uz.mahmudxon.halqa.ui.author.AuthorFragment"
         android:label="AuthorFragment"
         tools:layout="@layout/fragment_author"
+        />
+    <fragment
+        android:id="@+id/aboutFragment"
+        android:name="uz.mahmudxon.halqa.ui.about.AboutFragment"
+        android:label="AboutFragment"
+        tools:layout="@layout/fragment_about"
         />
 </navigation>

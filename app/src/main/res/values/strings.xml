@@ -17,4 +17,7 @@
     <string name="unknown_error">Кутилмаган хато</string>
     <string name="about_authors">Муаллиф ҳақида</string>
     <string name="about_app">Дастур ҳақида</string>
+    <string name="name_of_the_book">Ҳалқа</string>
+    <string name="name_of_the_author">Aкром Малик</string>
+    <string name="description_of_the_book">“Halqa” qissasidagi voqealar oxirgi yuz yillikda bo‘lib o‘tadi. Qahramonlar qismati sizni goh Malayziya, goh Hind ummoni, goh Hind o‘lkasi, Afg‘on sahrolari, qadim Turkiston zamini, Bolqon yarimoroli va Uyg‘ur diyorlariga yetaklaydi. Iymon va kufr, mo‘min va shayton orasidagi kurash, zolimning halokati, mazlumning saodati haqida hikoya qiladi.﻿</string>
 </resources>

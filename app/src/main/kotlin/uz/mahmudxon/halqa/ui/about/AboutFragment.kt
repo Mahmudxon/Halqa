@@ -1,4 +1,4 @@
-package uz.mahmudxon.halqa.ui.author
+package uz.mahmudxon.halqa.ui.about
 
 import android.util.Log
 import android.view.View
@@ -10,28 +10,27 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.R
-import uz.mahmudxon.halqa.databinding.FragmentAuthorBinding
-import uz.mahmudxon.halqa.domain.model.Author
+import uz.mahmudxon.halqa.databinding.FragmentAboutBinding
+import uz.mahmudxon.halqa.domain.model.ShopLink
 import uz.mahmudxon.halqa.ui.base.BaseFragment
-import uz.mahmudxon.halqa.ui.list.AuthorsAdapter
+import uz.mahmudxon.halqa.ui.list.ShopLinkAdapter
+import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.TAG
-import uz.mahmudxon.halqa.util.getAuthors
 import uz.mahmudxon.halqa.util.theme.Theme
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class AuthorFragment : BaseFragment<FragmentAuthorBinding>(R.layout.fragment_author) {
+class AboutFragment : BaseFragment<FragmentAboutBinding>(R.layout.fragment_about) {
 
     @Inject
-    lateinit var adapter: AuthorsAdapter
+    lateinit var fontManager: FontManager
 
     override fun onCreate(view: View) {
-        binding.list.layoutManager = LinearLayoutManager(context)
-        binding.list.adapter = adapter
-        adapter.swapData(getAuthors())
-        FirebaseDatabase.getInstance().reference.child("authors")
-            .addValueEventListener(OnValueEventListener())
         binding.backButton.setOnClickListener { finish() }
+        binding.fontSize = fontManager.fontSize
+        binding.listLinks.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        FirebaseDatabase.getInstance().reference.child("shops")
+            .addValueEventListener(OnValueEventListener())
     }
 
     override fun onCreateTheme(theme: Theme) {
@@ -42,8 +41,8 @@ class AuthorFragment : BaseFragment<FragmentAuthorBinding>(R.layout.fragment_aut
     inner class OnValueEventListener : ValueEventListener {
         override fun onDataChange(dataSnapshot: DataSnapshot) {
             // Get Post object and use the values to update the UI
-            val authors = dataSnapshot.getValue<List<Author>>()
-            authors?.let { adapter.swapData(it) }
+            val shops = dataSnapshot.getValue<List<ShopLink>>()
+            shops?.let { binding.listLinks.adapter =  ShopLinkAdapter(it) }
         }
 
         override fun onCancelled(databaseError: DatabaseError) {

@@ -207,6 +207,9 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             R.id.aboutAuthors -> {
                 navController.navigate(R.id.action_mainFragment_to_authorFragment)
             }
+            R.id.aboutApp -> {
+                navController.navigate(R.id.action_mainFragment_to_aboutFragment)
+            }
         }
     }
 

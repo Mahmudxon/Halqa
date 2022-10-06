@@ -3,8 +3,8 @@ package uz.mahmudxon.halqa.domain.model
 import uz.mahmudxon.halqa.R
 
 data class SocialMediaLink(
-    val type: Int,
-    val link: String
+    var type: Int = 0,
+    var link: String = ""
 ) {
     object Type {
         const val FACEBOOK = 1
