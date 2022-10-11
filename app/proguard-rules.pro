@@ -19,5 +19,6 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--keep class uz.mahmudxon.halqa.domain.model.*
--keep class uz.mahmudxon.halqa.datasource.*
+-keep class uz.mahmudxon.halqa.domain.model.** {*;}
+-keep class uz.mahmudxon.halqa.datasource.** {*;}
+-keep class com.google.android.exoplayer2.** {*;}
