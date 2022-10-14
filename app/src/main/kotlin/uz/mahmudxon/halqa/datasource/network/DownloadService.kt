@@ -11,6 +11,6 @@ interface DownloadService {
     @GET
     suspend fun downloadFile(@Url fileUrl: String): Response<ResponseBody>
 
-    @GET("halqa/")
-    suspend fun getAudiSizes(): Response<Map<String, Long>>
+    @GET
+    suspend fun getAudiSizes(@Url url : String): Response<Map<String, Long>>
 }
