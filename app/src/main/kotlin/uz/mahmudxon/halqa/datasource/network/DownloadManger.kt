@@ -1,6 +1,7 @@
 package uz.mahmudxon.halqa.datasource.network
 
 import android.util.Log
+import com.google.gson.GsonBuilder
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
@@ -14,9 +15,13 @@ import uz.mahmudxon.halqa.util.logd
 import java.io.File
 import java.io.FileOutputStream
 
+
 object DownloadManger {
     private val service by lazy {
-        Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
+        val gson = GsonBuilder()
+            .setLenient()
+            .create()
+        Retrofit.Builder().addConverterFactory(GsonConverterFactory.create(gson))
             .baseUrl(AudioUrl.baseUrl).build().create(DownloadService::class.java)
     }
 
@@ -82,7 +87,7 @@ object DownloadManger {
     fun requestSizes() {
         CoroutineScope(IO).launch {
             try {
-                val result = service.getAudiSizes()
+                val result = service.getAudiSizes(AudioUrl.baseUrl)
                 if (result.isSuccessful) {
                     result.body()?.let {
                         withContext(Main) {
