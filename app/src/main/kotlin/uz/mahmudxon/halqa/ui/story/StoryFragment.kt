@@ -36,6 +36,8 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     private var dialog: BottomSheetDialog? = null
 
+    private var dialogBinding: DialogAudioBinding? = null
+
     override fun onCreate(view: View) {
         chapterId = arguments?.getInt("id") ?: -1
         viewModel.getChapter(chapterId)
@@ -51,10 +53,12 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         binding.play.setOnClickListener {
             HalqaPlayer.playOrResume(chapterId)
             audioStatus = AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
+            showAudioDialog()
             setIconsVisible()
         }
         binding.playing.setOnClickListener {
             HalqaPlayer.pause()
+            dialog?.dismiss()
             audioStatus = AudioBook.Status.Downloaded
             setIconsVisible()
         }
@@ -75,6 +79,8 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
                 binding.chapterLayout.chapter = it
                 binding.title.text = it.title
                 binding.title.isSelected = true
+                dialogBinding?.title = it.title
+                dialogBinding?.description = it.description
             }
             binding.loading = state.loading
         }
@@ -82,7 +88,9 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override fun onCreateTheme(theme: Theme) {
         super.onCreateTheme(theme)
+        dialogBinding = DataBindingUtil.inflate(layoutInflater, R.layout.dialog_audio, null, false)
         binding.theme = theme
+        dialogBinding?.theme = theme
         binding.chapterLayout.theme = theme
     }
 
@@ -153,5 +161,15 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     }
 
     override fun onPlaying(id: Int, position: Long, duration: Long) {
+
+    }
+
+    private fun showAudioDialog() {
+        if (dialog == null)
+            context?.let {
+                dialog = BottomSheetDialog(it)
+                dialog!!.setContentView(dialogBinding!!.root)
+            }
+        dialog?.show()
     }
 }
