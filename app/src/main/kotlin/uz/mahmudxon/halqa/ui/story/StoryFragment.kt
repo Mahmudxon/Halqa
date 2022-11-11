@@ -33,6 +33,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     private var chapterId: Int = 0
 
     lateinit var audioStatus: AudioBook.Status
+    private var seekBarScrolling = false
 
     @SuppressLint("SetTextI18n")
     override fun onCreate(view: View) {
@@ -129,7 +130,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     private fun setIconsVisible() {
         when (audioStatus) {
             is AudioBook.Status.Online -> {
-                binding.download.visibility = View.VISIBLE
+                binding.download.visibility = if (chapterId <= 32) View.VISIBLE else View.GONE
                 binding.downloading.visibility = View.GONE
                 binding.play.visibility = View.GONE
                 binding.playing.visibility = View.GONE
@@ -174,6 +175,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     @SuppressLint("SetTextI18n")
     private fun setPlayerPosition(position: Long, duration: Long) {
+        if (seekBarScrolling) return
         binding.seekBar.progress = (position * 10000 / if (duration > 0) duration else 1).toInt()
         binding.descriptionOfPlayer.text =
             position.toStringAsTime() + " / " + duration.toStringAsTime()
@@ -182,6 +184,7 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     @SuppressLint("SetTextI18n")
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         if (fromUser) {
+            seekBarScrolling = true
             binding.descriptionOfPlayer.text =
                 (progress * HalqaPlayer.duration / 10000).toStringAsTime() + " / " + HalqaPlayer.duration.toStringAsTime()
         }
@@ -193,5 +196,6 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         HalqaPlayer.seek((seekBar?.progress ?: 1) * HalqaPlayer.duration / 10000)
+        seekBarScrolling = false
     }
 }

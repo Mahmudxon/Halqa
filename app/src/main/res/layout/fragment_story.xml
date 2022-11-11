@@ -84,7 +84,7 @@
                     android:layout_width="?actionBarSize"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:padding="20dp"
+                    android:padding="16dp"
                     android:src="@drawable/ic_download"
                     tools:ignore="ContentDescription" />
 
@@ -108,7 +108,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_gravity="center"
-                        android:padding="20dp"
+                        android:padding="16dp"
                         android:src="@drawable/ic_cancel" />
 
                 </FrameLayout>
