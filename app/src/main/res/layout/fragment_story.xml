@@ -22,6 +22,7 @@
         backgroundColor="@{theme.actionBarColor}"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
 
@@ -143,8 +144,7 @@
             layout="@layout/layout_chapter"
             android:descendantFocusability="beforeDescendants"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            app:visibility="@{!loading}"
-            />
+            app:visibility="@{!loading}" />
 
         <FrameLayout
             visibility="@{loading}"
@@ -160,5 +160,88 @@
 
         </FrameLayout>
 
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/bottom_player"
+            cardBackColor="@{theme.cardColor}"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:padding="4dp"
+            app:cardElevation="0dp"
+            app:layout_behavior="@string/hide_bottom_view_on_scroll_behavior">
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <FrameLayout
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/play_button_back">
+
+                    <com.google.android.material.progressindicator.CircularProgressIndicator
+                        android:id="@+id/progress"
+                        android:layout_width="38dp"
+                        android:layout_height="38dp"
+                        android:layout_gravity="center"
+                        android:indeterminate="false"
+                        android:max="102"
+                        app:indicatorColor="@color/white" />
+
+                    <ImageView
+                        android:id="@+id/icon_of_bottom_player"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="8dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/ic_play" />
+
+                </FrameLayout>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/title_of_player"
+                        textColor="@{theme.primaryTextColor}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold"
+                        tools:text="1-Bob"
+                        tools:textSize="16sp" />
+
+                    <SeekBar
+                        android:id="@+id/seek_bar"
+                        thumbColor="@{theme.primaryTextColor}"
+                        thumbTint="@{theme.secondaryTextColor}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:max="10000" />
+
+                    <TextView
+                        android:id="@+id/description_of_player"
+                        textColor="@{theme.secondaryTextColor}"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:text="24.5 MB | M4A"
+                        tools:textSize="14sp" />
+
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+        </androidx.cardview.widget.CardView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

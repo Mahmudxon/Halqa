@@ -23,6 +23,11 @@ class Halqa : Application() {
         getRemoteConfig()
         FirebaseDatabase.getInstance().setPersistenceEnabled(true)
         HalqaPlayer.init(this)
+        handleError()
+    }
+
+    private fun handleError()
+    {
         Thread.setDefaultUncaughtExceptionHandler { _, _ ->
             try {
                 val flags = Intent.FLAG_ACTIVITY_NEW_TASK

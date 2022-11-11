@@ -1,13 +1,12 @@
 package uz.mahmudxon.halqa.ui.story
 
+import android.annotation.SuppressLint
 import android.view.View
 import android.view.animation.AnimationUtils
-import androidx.databinding.DataBindingUtil
+import android.widget.SeekBar
 import androidx.fragment.app.viewModels
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.R
-import uz.mahmudxon.halqa.databinding.DialogAudioBinding
 import uz.mahmudxon.halqa.databinding.FragmentStoryBinding
 import uz.mahmudxon.halqa.datasource.network.DownloadManger
 import uz.mahmudxon.halqa.domain.model.AudioBook
@@ -16,11 +15,12 @@ import uz.mahmudxon.halqa.ui.base.BaseFragment
 import uz.mahmudxon.halqa.util.FontManager
 import uz.mahmudxon.halqa.util.Prefs
 import uz.mahmudxon.halqa.util.theme.Theme
+import uz.mahmudxon.halqa.util.toStringAsTime
 import javax.inject.Inject
 
 @AndroidEntryPoint
 class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story),
-    DownloadManger.OnDownloadListener, HalqaPlayer.PlayerListener {
+    DownloadManger.OnDownloadListener, HalqaPlayer.PlayerListener, SeekBar.OnSeekBarChangeListener {
 
     private val viewModel by viewModels<StoryViewModel>()
 
@@ -30,23 +30,27 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     @Inject
     lateinit var prefs: Prefs
 
-    var chapterId: Int = 0
+    private var chapterId: Int = 0
 
     lateinit var audioStatus: AudioBook.Status
 
-    private var dialog: BottomSheetDialog? = null
-
+    @SuppressLint("SetTextI18n")
     override fun onCreate(view: View) {
         chapterId = arguments?.getInt("id") ?: -1
         viewModel.getChapter(chapterId)
         HalqaPlayer.listener = this
-        audioStatus =
-            if (prefs.get(prefs.audioItemDownloaded + chapterId, false)) {
-                if (HalqaPlayer.getPlayingId() == chapterId)
-                    AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
-                else AudioBook.Status.Downloaded
-            } else AudioBook.Status.Online(0L)
+        audioStatus = if (prefs.get(prefs.audioItemDownloaded + chapterId, false)) {
+            if (HalqaPlayer.getPlayingId() == chapterId) AudioBook.Status.Playing(
+                HalqaPlayer.position, HalqaPlayer.duration
+            )
+            else AudioBook.Status.Downloaded
+        } else AudioBook.Status.Online(0L)
+        binding.bottomPlayer.visibility = if (chapterId == HalqaPlayer.getPlayingId()) {
+            setPlayerPosition(HalqaPlayer.position, HalqaPlayer.duration)
+            View.VISIBLE
+        } else View.GONE
         setIconsVisible()
+        binding.seekBar.setOnSeekBarChangeListener(this)
         DownloadManger.setListener(this)
         binding.play.setOnClickListener {
             HalqaPlayer.playOrResume(chapterId)
@@ -69,11 +73,21 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
         binding.downloading.setOnClickListener {
             DownloadManger.cancel(chapterId)
         }
-        viewModel.chapter.observe(this)
-        { state ->
+        binding.iconOfBottomPlayer.setOnClickListener {
+            audioStatus = if (audioStatus is AudioBook.Status.Playing) {
+                HalqaPlayer.pause()
+                AudioBook.Status.Downloaded
+            } else {
+                HalqaPlayer.playOrResume(chapterId)
+                AudioBook.Status.Playing(HalqaPlayer.position, HalqaPlayer.duration)
+            }
+            setIconsVisible()
+        }
+        viewModel.chapter.observe(this) { state ->
             state.data?.let {
                 binding.chapterLayout.chapter = it
                 binding.title.text = it.title
+                binding.titleOfPlayer.text = "${it.chapterNumber} - bob"
                 binding.title.isSelected = true
             }
             binding.loading = state.loading
@@ -132,15 +146,17 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
             is AudioBook.Status.Playing -> {
                 binding.download.visibility = View.GONE
                 binding.downloading.visibility = View.GONE
-                binding.playing.visibility =
-                    View.VISIBLE
+                binding.playing.visibility = View.VISIBLE
                 binding.play.visibility = View.GONE
+                binding.bottomPlayer.visibility = View.VISIBLE
+                binding.iconOfBottomPlayer.setImageResource(R.drawable.ic_pause)
             }
             is AudioBook.Status.Downloaded -> {
                 binding.download.visibility = View.GONE
                 binding.downloading.visibility = View.GONE
                 binding.play.visibility = View.VISIBLE
                 binding.playing.visibility = View.GONE
+                binding.iconOfBottomPlayer.setImageResource(R.drawable.ic_play)
             }
         }
     }
@@ -153,5 +169,29 @@ class StoryFragment : BaseFragment<FragmentStoryBinding>(R.layout.fragment_story
     }
 
     override fun onPlaying(id: Int, position: Long, duration: Long) {
+        if (id == chapterId) setPlayerPosition(position, duration)
+    }
+
+    @SuppressLint("SetTextI18n")
+    private fun setPlayerPosition(position: Long, duration: Long) {
+        binding.seekBar.progress = (position * 10000 / if (duration > 0) duration else 1).toInt()
+        binding.descriptionOfPlayer.text =
+            position.toStringAsTime() + " / " + duration.toStringAsTime()
+    }
+
+    @SuppressLint("SetTextI18n")
+    override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+        if (fromUser) {
+            binding.descriptionOfPlayer.text =
+                (progress * HalqaPlayer.duration / 10000).toStringAsTime() + " / " + HalqaPlayer.duration.toStringAsTime()
+        }
+    }
+
+    override fun onStartTrackingTouch(seekBar: SeekBar?) {
+
+    }
+
+    override fun onStopTrackingTouch(seekBar: SeekBar?) {
+        HalqaPlayer.seek((seekBar?.progress ?: 1) * HalqaPlayer.duration / 10000)
     }
 }
