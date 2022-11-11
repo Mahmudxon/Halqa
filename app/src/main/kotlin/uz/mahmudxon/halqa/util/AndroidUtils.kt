@@ -49,7 +49,7 @@ fun getAuthors(): List<Author> {
         name = "Aкром Малик",
         imgUrl = "https://firebasestorage.googleapis.com/v0/b/messanger-6a0b4.appspot.com/o/arkom_malik.webp?alt=media&token=dee24abc-2a85-488c-b083-f5d65e606475",
         jobTitle = "Ёзувчи",
-        description = "Aкром Малик 1991 йилда Тошкент вилояти Пискент туманида туғилган. Тошкент давлат миллий университети магистри, Aлишер Навоий ижод билимдони, \"Ҳалқа\", \"Жанги\" ва яна бир неча китоблар муаллифи.",
+        description = "Aкром Малик 1990 йилда Тошкент вилояти Пискент туманида туғилган. Тошкент давлат миллий университети докторанти, Aлишер Навоий ижод билимдони, \"Ҳалқа\", \"Жанги\" ва яна бир неча китоблар муаллифи.",
         socialMediaLinks = listOf(
             SocialMediaLink(
                 SocialMediaLink.Type.FACEBOOK,
