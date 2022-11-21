@@ -16,6 +16,19 @@
         <variable
             name="is_playing"
             type="Boolean" />
+
+
+        <variable
+            name="duration"
+            type="String" />
+
+        <variable
+            name="position"
+            type="String" />
+
+        <variable
+            name="title"
+            type="String" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
@@ -159,6 +172,7 @@
                 android:indeterminate="true" />
 
         </FrameLayout>
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
