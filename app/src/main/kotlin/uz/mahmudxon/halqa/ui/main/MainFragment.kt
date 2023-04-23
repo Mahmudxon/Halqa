@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CompoundButton
 import android.widget.SeekBar
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.view.setPadding
@@ -58,23 +59,25 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
     @Inject
     lateinit var prefs: Prefs
 
-    private val audioBooks: ArrayList<AudioBook> by lazy {
-        ArrayList<AudioBook>().also {
-            for (x in 1..32) it.add(
-                AudioBook(
-                    id = x, title = "$x - боб", status = if (prefs.get(
-                            prefs.audioItemDownloaded + x, false
-                        )
-                    ) {
-                        if (HalqaPlayer.getPlayingId() == x) AudioBook.Status.Playing(
-                            HalqaPlayer.position,
-                            HalqaPlayer.duration
-                        )
-                        else AudioBook.Status.Downloaded
-                    } else AudioBook.Status.Online(getAudioSize(x))
+    private lateinit var audioBooks: ArrayList<AudioBook>
+    private fun uploadAudioBooks() {
+        audioBooks =
+            ArrayList<AudioBook>().also {
+                for (x in 1..32) it.add(
+                    AudioBook(
+                        id = x, title = "$x - боб", status = if (prefs.get(
+                                prefs.audioItemDownloaded + x, false
+                            )
+                        ) {
+                            if (HalqaPlayer.getPlayingId() == x) AudioBook.Status.Playing(
+                                HalqaPlayer.position,
+                                HalqaPlayer.duration
+                            )
+                            else AudioBook.Status.Downloaded
+                        } else AudioBook.Status.Online(getAudioSize(x))
+                    )
                 )
-            )
-        }
+            }
     }
 
     lateinit var settingBinding: FragmentSettingsBinding
@@ -86,6 +89,7 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
         DownloadManger.setListener(this)
         DownloadManger.setSizeListener(this)
         HalqaPlayer.listener = this
+        uploadAudioBooks()
         binding.viewPager.adapter = ViewpagerAdapter()
         audioBookAdapter.listener = { onAudioClick(it) }
         binding.viewPager.offscreenPageLimit = 3
@@ -101,6 +105,10 @@ class MainFragment : BaseFragment<FragmentMainBinding>(R.layout.fragment_main),
             state.data?.let {
                 chaptersAdapter.swapData(it)
                 audioBookAdapter.swapData(audioBooks)
+            }
+            state.error?.let {
+                Toast.makeText(context, it, Toast.LENGTH_LONG).show()
+                logd(it)
             }
         }
     }

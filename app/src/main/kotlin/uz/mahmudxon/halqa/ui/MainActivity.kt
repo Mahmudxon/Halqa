@@ -4,6 +4,7 @@ import android.content.res.Configuration
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewAnimationUtils
@@ -12,6 +13,8 @@ import androidx.core.animation.doOnEnd
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import dagger.hilt.android.AndroidEntryPoint
 import uz.mahmudxon.halqa.databinding.ActivityMainBinding
+import uz.mahmudxon.halqa.util.Prefs
+import uz.mahmudxon.halqa.util.TAG
 import uz.mahmudxon.halqa.util.theme.IThemeChanger
 import uz.mahmudxon.halqa.util.theme.ThemeManager
 import javax.inject.Inject
@@ -27,12 +30,16 @@ class MainActivity : AppCompatActivity(), IThemeChanger {
     @Inject
     lateinit var themeManager: ThemeManager
 
+    @Inject
+    lateinit var prefs: Prefs
+
     lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         setAutoDark()
+        Log.d(TAG, "onCreate: ${prefs.get(prefs.token, "null")}")
         binding = ActivityMainBinding.inflate(LayoutInflater.from(this))
         setContentView(binding.root)
     }

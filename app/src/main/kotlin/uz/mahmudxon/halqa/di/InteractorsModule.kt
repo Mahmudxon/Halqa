@@ -4,8 +4,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import uz.mahmudxon.halqa.datasource.db.audio.AudioDao
+import uz.mahmudxon.halqa.datasource.db.audio.AudioEntityMapper
 import uz.mahmudxon.halqa.datasource.db.story.StoryDao
 import uz.mahmudxon.halqa.datasource.db.story.StoryEntityMapper
+import uz.mahmudxon.halqa.interactor.audio.GetAudioBook
 import uz.mahmudxon.halqa.interactor.story.GetChapter
 import uz.mahmudxon.halqa.interactor.story.GetChapterList
 import uz.mahmudxon.halqa.interactor.story.UpdateChapter
@@ -26,7 +29,13 @@ object InteractorsModule {
         GetChapter(storyDao, storyEntityMapper)
 
     @Provides
-    fun provideUpdateChapter(storyDao: StoryDao, storyEntityMapper: StoryEntityMapper): UpdateChapter =
+    fun provideUpdateChapter(
+        storyDao: StoryDao,
+        storyEntityMapper: StoryEntityMapper
+    ): UpdateChapter =
         UpdateChapter(storyDao, storyEntityMapper)
 
+    @Provides
+    fun provideGetAudioBook(audioDao: AudioDao, mapper: AudioEntityMapper): GetAudioBook =
+        GetAudioBook(audioDao, mapper)
 }

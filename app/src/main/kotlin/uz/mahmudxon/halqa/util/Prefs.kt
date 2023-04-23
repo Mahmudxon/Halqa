@@ -8,6 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class Prefs @Inject constructor(@ApplicationContext context: Context) {
+    val token: String = "fcmToken"
     val baseUrl = "baseUrl"
     val theme = "currentTheme"
     val lastDarkTheme = "lastDarkTheme"
